@@ -37,3 +37,38 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+.DS_STORE
+
+node_modules
+
+client/dist/
+client/bazel-*
+client/e2e_test.*
+client/node_modules
+client/bower_components
+client/tools/gulp-tasks/cldr/cldr-data/
+
+# Include when developing application packages.
+client/pubspec.lock
+client/.c9
+client/.idea/
+client/.settings/
+client/*.swo
+client/modules/.settings
+client/.bazelrc
+client/.vscode
+client/modules/.vscode
+
+# Don't check in secret files
+client/*secret.js
+
+# Ignore npm/yarn debug log
+client/npm-debug.log
+client/yarn-error.log
+
+# build-analytics
+client/.build-analytics
+
+# rollup-test output
+client/modules/rollup-test/dist/

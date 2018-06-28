@@ -6,7 +6,7 @@ const config = require('../config/database')
 const jwt = require('jsonwebtoken'); // Compact, URL-safe means of representing claims to be transferred between two parties.
 
 router.post('/register', (req, res) => {
-    console.log("registering");
+    console.log("registering user");
     // Check if email was provided
     if (!req.body.email) {
       res.json({ success: false, message: 'You must provide an e-mail' }); // Return error
@@ -23,7 +23,8 @@ router.post('/register', (req, res) => {
           let user = new User({
             email: req.body.email.toLowerCase(),
             username: req.body.username.toLowerCase(),
-            password: req.body.password
+            password: req.body.password,
+            name:  req.body.name
           });
           // Save user to database
           user.save((err) => {
@@ -71,29 +72,29 @@ router.post('/login', (req, res) => {
     res.header('Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS');
     res.header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token');
 
-    if (!req.body.username) {
+    if (!req.body.Username) {
         res.json({success: false, message: 'No username was provided'});
     }
     else {
-        if (!req.body.password) {
+        if (!req.body.Password) {
             res.json({ success: false, message: 'No password was provided'});
         }
         else {
-            User.findOne({username: req.body.username.toLowerCase() }, (err, user) => {
+            User.findOne({username: req.body.Username.toLowerCase() }, (err, user) => {
                 if (err) {
                     res.json({ success: false, message: err});
                 } else {
                     if (!user) {
                         res.json( { success: false, message: 'Username not found'});
                     } else {
-                        const validPassword = user.comparePassword(req.body.password);
+                        const validPassword = user.comparePassword(req.body.Password);
                         if (!validPassword) {
                             res.json( {success: false, message: 'Password invalid'});
                         } else {
 
-                            const token = jwt.sign({OwnerId: user._id}, config.secret, {expiresIn: '24h'});
+                            const token = jwt.sign({UserId: user._id}, config.secret, {expiresIn: '24h'});
 
-                            res.json( {success: true, message: 'Success!', token: token, user: {username: user.username, OwnerId: user._id, roles: user.roles}});
+                            res.json( {success: true, message: 'Success!', token: token, user: {username: user.username, UserId: user.userId, roles: user.roles}});
                         }
                     }
                 }

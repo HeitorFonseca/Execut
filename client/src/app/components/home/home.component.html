@@ -1,0 +1,21 @@
+
+<div class="row">
+  <div class="col-xl-12 text-xs-center">
+      <div class="card mb-3">
+          <div class="card-body">
+                  <ul> 
+                      <li *ngFor="let project of projects; let i = index" (click)="selectProject(project)"> 
+                          {{ i + 1 }} - {{ project.name }} 
+                      </li>
+                  </ul>
+          </div>
+      </div>
+  </div>
+</div>
+
+
+<br>
+<input class="btn btn-primary ml-2" (click)="onRegisterProject()" value="Cadastrar Projeto" />
+
+
+

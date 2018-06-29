@@ -1,4 +1,21 @@
 <p  *ngIf="project">
-
   {{project.name}}
 </p>
+
+<div class="row mt-4 ml-2 d-flex">
+  <input class="btn btn-primary" (click)="onRegisterEmployeeProject()" value="Cadastrar Funcionários" />
+</div>
+<div class="row mt-2 ml-2 d-flex">
+  <input class="btn btn-primary" (click)="onRegisterServicesProject()" value="Cadastrar Serviços" />
+</div>
+<div class="row mt-2 ml-2 d-flex">
+  <input class="btn btn-primary" (click)="onRegisterProject()" value="Cadastrar Equipamentos" />
+</div>
+<div class="row mt-2 ml-2 d-flex">
+  <input class="btn btn-primary" (click)="onRegisterProject()" value="Cadastrar Material" />
+</div>
+
+<br>
+<div *ngIf="registerOptions.employee">
+  <app-register-employee></app-register-employee>
+</div>

@@ -14,6 +14,13 @@ export class ProjectComponent implements OnInit {
 
   project: any;
 
+  registerOptions = {
+    employee: false,
+    services: false,
+    equipments: false,
+    material: false,
+  }
+
   constructor(private _project: SharedProject,
               private route: ActivatedRoute,
               private projectsService: ProjectsService) { }
@@ -25,12 +32,27 @@ export class ProjectComponent implements OnInit {
 
     var projectId = this.route.snapshot.paramMap.get('id');
     console.log(projectId);
-    
+
     this.projectsService.getProjectByName(projectId).subscribe(data => {
       this.project = data;
       
       console.log("data res", this.project);     
     })
+  }
+
+
+  onRegisterEmployeeProject() {
+    this.registerOptions.employee = true;
+    this.registerOptions.equipments = false;
+    this.registerOptions.material = false;
+    this.registerOptions.services = false;
+  }
+
+  onRegisterServicesProject() {
+    this.registerOptions.employee = false;
+    this.registerOptions.equipments = false;
+    this.registerOptions.material = false;
+    this.registerOptions.services = true;
   }
 
   // ngAfterViewInit() {

@@ -1,0 +1,7 @@
+
+<label>Funcionário</label>
+
+<br>
+<select>
+    <option *ngFor="let employeer of employees" [value]="employeer.employeeId" >{{employeer.name}}</option>
+</select>

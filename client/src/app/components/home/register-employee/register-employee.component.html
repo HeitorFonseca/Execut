@@ -18,40 +18,40 @@
       <!-- Employee Name Field -->
       <div class="form-group">      
         <div [ngClass]="{'has-error': form.controls.name.errors && form.controls.name.dirty, 'has-success': form.controls.name.valid && form.controls.name.dirty }">
-          <label for="checkboxname" class="col-sm-2 col-form-label">Nome</label>
-          <input class="form-control input-underline" type="text" placeholder="Nome do Projeto" name="name" formControlName="name" id="checkboxname" />
+          <label for="employeeName" class="col-sm-2 col-form-label">Nome</label>
+          <input class="form-control input-underline" type="text" placeholder="Nome do Funcionário" name="name" formControlName="name" id="employeeName" />
           <!-- Validation -->
           <ul class="help-block">
             <li *ngIf="form.controls.name.errors?.required && form.controls.name.dirty">Este campo é obrigatório.</li>
           </ul>
         </div>
       </div>
-      
+
        <!-- Role Field  -->
       <div class="form-group">
-          <div [ngClass]="{'has-error': form.controls.role.errors && form.controls.role.dirty, 'has-success': form.controls.role.valid && form.controls.role.dirty }">
+          <div [ngClass]="{'has-error': form.controls.role1.errors && form.controls.role1.dirty, 'has-success': form.controls.role1.valid && form.controls.role1.dirty }">
               <label class="col-sm-2 col-form-label">Perfil</label>
               <div class="form-check">
                 <label class="form-check-label">
-                  <input class="form-check-input" type="checkbox" name="role" formControlName="role" value="option1">
+                  <input class="form-check-input" type="checkbox" name="role1" formControlName="role1" >
                     Planejador
                 </label>
               </div>
               <div class="form-check">
                 <label class="form-check-label">
-                  <input class="form-check-input" type="checkbox"> Supervisor
+                  <input class="form-check-input" type="checkbox" name="role2" formControlName="role2" > Supervisor
                 </label>
               </div>
               <div class="form-check">
                 <label class="form-check-label">
-                  <input class="form-check-input" type="checkbox"> Colaborador Executor
+                  <input class="form-check-input" type="checkbox" name="role3" formControlName="role3" > Colaborador Executor
                 </label>
               </div>
             <!-- Validation -->
             <ul class="help-block">
-              <li *ngIf="form.controls.role.errors?.required && form.controls.role.dirty">Este campo é obrigatório.</li>
+              <li *ngIf="form.controls.role1.errors?.required && form.controls.role1.dirty">Este campo é obrigatório.</li>
             </ul>
-          </div>
+          </div>  
         </div>
       
   

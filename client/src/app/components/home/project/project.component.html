@@ -9,13 +9,22 @@
   <input class="btn btn-primary" (click)="onRegisterServicesProject()" value="Cadastrar Serviços" />
 </div>
 <div class="row mt-2 ml-2 d-flex">
-  <input class="btn btn-primary" (click)="onRegisterProject()" value="Cadastrar Equipamentos" />
+  <input class="btn btn-primary" (click)="onRegisterEquipmentsProject()" value="Cadastrar Equipamentos" />
 </div>
 <div class="row mt-2 ml-2 d-flex">
-  <input class="btn btn-primary" (click)="onRegisterProject()" value="Cadastrar Material" />
+  <input class="btn btn-primary" (click)="onRegisterMaterialsProject()" value="Cadastrar Material" />
 </div>
 
 <br>
 <div *ngIf="registerOptions.employee">
-  <app-register-employee></app-register-employee>
+  <app-register-employee [project]="project" ></app-register-employee>
+</div>
+<div *ngIf="registerOptions.material">
+  <app-register-material [project]="project" ></app-register-material>
+</div>
+<div *ngIf="registerOptions.services">
+    <app-register-service [project]="project" ></app-register-service>
+</div>
+<div *ngIf="registerOptions.equipments">
+    <app-register-equipment [project]="project" ></app-register-equipment>
 </div>

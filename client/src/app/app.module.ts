@@ -20,6 +20,10 @@ import { ProjectComponent } from './components/home/project/project.component';
 import { AuthService } from './services/auth.service';
 
 import { SharedProject } from './providers/sharedProject';
+import { RegisterEmployeeComponent } from './components/home/register-employee/register-employee.component';
+import { RegisterMaterialComponent } from './components/home/register-material/register-material.component';
+import { RegisterServiceComponent } from './components/home/register-service/register-service.component';
+import { RegisterEquipmentComponent } from './components/home/register-equipment/register-equipment.component';
 
 
 export function tokenGetter() {
@@ -34,7 +38,11 @@ export function tokenGetter() {
     HomeComponent,
     NavbarComponent,
     RegisterProjectComponent,
-    ProjectComponent
+    ProjectComponent,
+    RegisterEmployeeComponent,
+    RegisterMaterialComponent,
+    RegisterServiceComponent,
+    RegisterEquipmentComponent
   ],
   imports: [
     BrowserModule,

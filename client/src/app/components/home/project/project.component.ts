@@ -36,7 +36,7 @@ export class ProjectComponent implements OnInit {
     this.projectsService.getProjectByName(projectId).subscribe(data => {
       this.project = data;
       
-      console.log("data res", this.project);     
+      console.log("http data", this.project);     
     })
   }
 
@@ -53,6 +53,20 @@ export class ProjectComponent implements OnInit {
     this.registerOptions.equipments = false;
     this.registerOptions.material = false;
     this.registerOptions.services = true;
+  }
+
+  onRegisterMaterialsProject() {
+    this.registerOptions.employee = false;
+    this.registerOptions.equipments = false;
+    this.registerOptions.material = true;
+    this.registerOptions.services = false;
+  }
+
+  onRegisterEquipmentsProject() {
+    this.registerOptions.employee = false;
+    this.registerOptions.equipments = true;
+    this.registerOptions.material = false;
+    this.registerOptions.services = false;
   }
 
   // ngAfterViewInit() {

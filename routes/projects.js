@@ -6,6 +6,8 @@ var User = require('../models/user');
 var Employee = require('../models/employee');
 var Material = require('../models/material');
 var Equipment = require('../models/equipment');
+var Service = require('../models/service');
+var Task = require('../models/task');
 
 /* Get all projects */
 router.get('/', function(req, res, next) {
@@ -24,7 +26,7 @@ router.get('/:id', function(req, res, next) {
         if (err) {
             res.json(err);
         }
-        console.log(project);
+        //console.log(project);
         res.json(project);
     });
 });
@@ -55,6 +57,7 @@ router.post('/register', function(req, res, next) {
                 }
             });
         }          
+        
     });
 });
 
@@ -76,10 +79,24 @@ router.post('/registerEmployee', function(req, res, next) {
     });
 });
 
+router.get('/:id/employeer', function(req, res, next) {
+    //console.log("get all employeer here");  
+    //console.log("query", req.query );  
+
+    var query = { projectId: req.query.projectId };
+
+    Employee.find(query, function(err, employees) {
+        if (err) {
+            res.json(err);
+        }
+        //console.log(employees);
+        res.json(employees);
+    });
+});
+
 /* Material */
 router.post('/registerMaterial', function(req, res, next) {
     console.log("Register material");
-
     console.log(req.body);
 
     Material.create(req.body, function (err, project) {          
@@ -94,13 +111,27 @@ router.post('/registerMaterial', function(req, res, next) {
     });
 });
 
+router.get('/:id/materials', function(req, res, next) {
+    //console.log("get all materials here");  
+    //console.log("query", req.query );  
+
+    var query = { projectId: req.query.projectId };
+
+    Material.find(query, function(err, materials) {
+        if (err) {
+            res.json(err);
+        }
+        //console.log(materials);
+        res.json(materials);
+    });
+});
+
 /* Service */
 router.post('/registerService', function(req, res, next) {
     console.log("Register service");
-
     console.log(req.body);
 
-    Material.create(req.body, function (err, project) {          
+    Service.create(req.body, function (err, project) {          
         if (err) {
             console.log(err);           
             res.json({ success: false, message: 'Não foi possivel registrar o serviço. Erro: ', err }); // Return error if not related to validation
@@ -112,10 +143,25 @@ router.post('/registerService', function(req, res, next) {
     });
 });
 
+
+router.get('/:id/services', function(req, res, next) {
+    //console.log("get all services here");  
+    //console.log("query", req.query );  
+
+    var query = { projectId: req.query.projectId };
+
+    Service.find(query, function(err, services) {
+        if (err) {
+            res.json(err);
+        }
+        //console.log(services);
+        res.json(services);
+    });
+});
+
 /* Equipment */
 router.post('/registerEquipment', function(req, res, next) {
     console.log("Register equipment");
-
     console.log(req.body);
 
     Equipment.create(req.body, function (err, project) {          
@@ -130,5 +176,38 @@ router.post('/registerEquipment', function(req, res, next) {
     });
 });
 
+router.get('/:id/equipments', function(req, res, next) {
+    //console.log("get all equipments here");  
+    //console.log("query", req.query );  
+
+    var query = { projectId: req.query.projectId };
+
+    Equipment.find(query, function(err, equipments) {
+        if (err) {
+            res.json(err);
+        }
+        //console.log(equipments);
+        res.json(equipments);
+    });
+});
+
+/* Task */
+
+router.post('/registerTask', function(req, res, next) {
+    console.log("Register tarefa");
+
+    console.log(req.body);
+
+    Task.create(req.body, function (err, project) {          
+        if (err) {
+            console.log(err);           
+            res.json({ success: false, message: 'Não foi possivel registrar a tarefa. Erro: ', err }); // Return error if not related to validation
+                 
+        } else {
+            console.log("tarefa registrada");           
+            res.json({ success: true, message: 'Tarefa registrada!' }); // Return success
+        }          
+    });
+});
 
 module.exports = router;

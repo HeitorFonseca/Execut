@@ -19,6 +19,7 @@ export class ProjectComponent implements OnInit {
     services: false,
     equipments: false,
     material: false,
+    task: false,
   }
 
   constructor(private _project: SharedProject,
@@ -46,6 +47,7 @@ export class ProjectComponent implements OnInit {
     this.registerOptions.equipments = false;
     this.registerOptions.material = false;
     this.registerOptions.services = false;
+    this.registerOptions.task = false;
   }
 
   onRegisterServicesProject() {
@@ -53,6 +55,7 @@ export class ProjectComponent implements OnInit {
     this.registerOptions.equipments = false;
     this.registerOptions.material = false;
     this.registerOptions.services = true;
+    this.registerOptions.task = false;
   }
 
   onRegisterMaterialsProject() {
@@ -60,6 +63,7 @@ export class ProjectComponent implements OnInit {
     this.registerOptions.equipments = false;
     this.registerOptions.material = true;
     this.registerOptions.services = false;
+    this.registerOptions.task = false;
   }
 
   onRegisterEquipmentsProject() {
@@ -67,6 +71,16 @@ export class ProjectComponent implements OnInit {
     this.registerOptions.equipments = true;
     this.registerOptions.material = false;
     this.registerOptions.services = false;
+    this.registerOptions.task = false;
+  }
+
+
+  onRegisterTaskProject() {
+    this.registerOptions.task = true;
+    this.registerOptions.employee = false;
+    this.registerOptions.equipments = false;
+    this.registerOptions.material = false;
+    this.registerOptions.services = false;    
   }
 
   // ngAfterViewInit() {

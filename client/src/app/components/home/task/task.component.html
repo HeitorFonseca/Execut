@@ -1,7 +1,101 @@
+<div class="ml-2">
 
-<label>Funcionário</label>
+  <h1>Registrar Tarefa</h1>
 
-<br>
-<select>
-    <option *ngFor="let employeer of employees" [value]="employeer.employeeId" >{{employeer.name}}</option>
-</select>
+  <!-- Custom Success/Error Message -->
+  <div class="row show-hide-message">
+    <div [ngClass]="messageClass">
+      {{ message }}
+    </div>
+  </div>
+
+  <!-- Task Form -->
+  <form [formGroup]="form" (submit)="onRegisterSubmit()">
+
+    <!-- Task description Field -->
+    <div class="form-group">
+      <div [ngClass]="{'has-error': form.controls.description.errors && form.controls.description.dirty, 'has-success': form.controls.description.valid && form.controls.description.dirty }">
+        <label for="serviceName" class="col-sm-2 col-form-label">Nome</label>
+        <input class="form-control input-underline" type="text" placeholder="Descrição da tarefa" name="description" formControlName="description"
+          id="serviceName" />
+        <!-- Validation -->
+        <ul class="help-block">
+          <li *ngIf="form.controls.description.errors?.required && form.controls.description.dirty">Este campo é obrigatório.</li>
+        </ul>
+      </div>
+    </div>
+
+
+    <!-- Initial Data Field -->
+    <div class="form-group">
+        <label> Data Inicial </label>
+        <div [ngClass]="{'has-error': form.controls.initialDate.errors && form.controls.initialDate.dirty, 'has-success': form.controls.initialDate.valid && form.controls.initialDate.dirty }">
+            <div class="input-group datepicker-input">
+                <input class="form-control col-md-2" name="dp1" ngbDatepicker #d="ngbDatepicker" placeholder="yyyy-mm-dd" name="initialDate" formControlName="initialDate"
+                />
+                <button class="input-group-addon" (click)="d.toggle()" type="button">
+                    <span class="fa fa-calendar"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label> Data Final </label>
+        <div [ngClass]="{'has-error': form.controls.finalDate.errors && form.controls.finalDate.dirty, 'has-success': form.controls.finalDate.valid && form.controls.finalDate.dirty }">
+            <div class="input-group datepicker-input">
+                <input class="form-control col-md-2" name="dp2" ngbDatepicker #d2="ngbDatepicker" placeholder="yyyy-mm-dd" name="finalDate" formControlName="finalDate"
+                />
+                <button class="input-group-addon" (click)="d2.toggle()" type="button">
+                    <span class="fa fa-calendar"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+      <label>Status: </label>
+      <select class="form-control col-md-2" formControlName="status">
+        <option *ngFor="let status of stati" [value]="status.statusId">{{status.name}}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Funcionário: </label>
+      <select class="form-control col-md-2" formControlName="employee">
+        <option *ngFor="let employeer of employees" [value]="employeer.employeeId">{{employeer.name}}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Serviço: </label>
+      <select class="form-control col-md-2" formControlName="service">
+        <option *ngFor="let service of services" [value]="service.serviceId">{{service.name}}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="materials">Materiais:</label>
+      <div *ngFor="let option of materials">
+        <label>
+          <input type="checkbox" name="materials" value="{{option.materialId}}" (change)="onClicked(materials, option, $event)" /> {{option.name}}
+        </label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="equipments">Equipamentos:</label>
+      <div *ngFor="let option of equipments">
+        <label>
+          <input type="checkbox" name="equipments" value="{{option.equipmentId}}" (change)="onClicked(equipments, option, $event)"
+          /> {{option.name}}
+        </label>
+      </div>
+
+    </div>
+  </form>
+
+</div>
+
+
+<input class="btn btn-primary ml-2" (click)="onRegisterTaks()" value="Cadastrar Tarefa" />

@@ -7,6 +7,7 @@ var cors = require('cors');
 
 var authRouter = require('./routes/authentication');
 var projectRouter = require('./routes/projects');
+var statusRouter = require('./routes/stati');
 
 var app = express();
 
@@ -20,6 +21,7 @@ app.use(cors());
 app.use('/', express.static(path.join(__dirname, 'dist/mean-angular6')));
 app.use('/api/authentication', authRouter);
 app.use('/api/project', projectRouter);
+app.use('/api/status', statusRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

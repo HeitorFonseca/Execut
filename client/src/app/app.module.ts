@@ -24,6 +24,7 @@ import { RegisterEmployeeComponent } from './components/home/register-employee/r
 import { RegisterMaterialComponent } from './components/home/register-material/register-material.component';
 import { RegisterServiceComponent } from './components/home/register-service/register-service.component';
 import { RegisterEquipmentComponent } from './components/home/register-equipment/register-equipment.component';
+import { TaskComponent } from './components/home/task/task.component';
 
 
 export function tokenGetter() {
@@ -42,7 +43,8 @@ export function tokenGetter() {
     RegisterEmployeeComponent,
     RegisterMaterialComponent,
     RegisterServiceComponent,
-    RegisterEquipmentComponent
+    RegisterEquipmentComponent,
+    TaskComponent
   ],
   imports: [
     BrowserModule,

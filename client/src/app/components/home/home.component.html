@@ -4,7 +4,7 @@
       <div class="card mb-3">
           <div class="card-body">
                   <ul> 
-                      <li *ngFor="let project of projects; let i = index" (click)="selectProject(project)"> 
+                      <li class="col-md-6" *ngFor="let project of projects; let i = index" (click)="selectProject(project)"> 
                           {{ i + 1 }} - {{ project.name }} 
                       </li>
                   </ul>

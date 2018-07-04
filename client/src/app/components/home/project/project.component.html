@@ -33,4 +33,6 @@
     <app-register-equipment [project]="project" ></app-register-equipment>
 </div>
 
-<app-task></app-task>
+<div *ngIf="registerOptions.task">
+  <app-task></app-task>
+</div>

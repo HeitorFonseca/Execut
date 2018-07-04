@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { JwtModule } from '@auth0/angular-jwt';
+import { NgxPermissionsModule, NgxPermissionsService, NgxRolesService } from 'ngx-permissions';
 
 /* Components */
 import { AppComponent } from './app.component';
@@ -82,7 +83,7 @@ export function tokenGetter() {
       }
     ]),
     NgbModule.forRoot(),
-
+    NgxPermissionsModule.forRoot(),
   ],
   providers: [
     AuthService,

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { NgxPermissionsService, NgxRolesService } from 'ngx-permissions'
 
 import { AuthService } from '../../services/auth.service'
 import {User} from "./../../models/user";
@@ -21,9 +22,11 @@ export class LoginComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder, 
               private authService: AuthService, 
-               private router: Router) {
+              private router: Router,
+              private permissionsService: NgxPermissionsService,
+              private rolesService: NgxRolesService) {
                 this.createForm(); // Create Login Form when component is constructed
-                }
+              }
 
   ngOnInit() {
   }
@@ -74,7 +77,7 @@ export class LoginComponent implements OnInit {
         this.message = data.message;
         this.authService.storeUserData(data.token, data.user);        
 
-        //this.setUserPermissionsAndRole(data);
+        this.setUserPermissionsAndRole(data);
 
         setTimeout(() => {
           this.router.navigate(['']);
@@ -82,6 +85,41 @@ export class LoginComponent implements OnInit {
       }
     });
     
+  }
+
+
+  setUserPermissionsAndRole(data:any) {
+    var permissions = this.getPermissions();
+    this.permissionsService.loadPermissions(permissions);
+
+    if (data.user.roles) {
+      let roles = data.user.roles;
+
+      for (let role of roles) {
+        var perm:string[] = [""];
+
+        if (role == "supervisor") {
+          perm = this.getPermissions();
+          console.log("entrou", perm);
+        }
+        else if (role == "checker") {
+          perm = this.getPermissions();
+        } 
+        else { //executer
+          perm = this.getPermissions();
+        } 
+        
+        console.log("setou data permissions and role");
+        
+        localStorage.setItem('role', role);
+
+        this.rolesService.addRole(role, perm)
+      }
+    }
+  }
+
+  getPermissions() {
+    return ["createProject","removeProject","editProject","viewProject"]
   }
 
 

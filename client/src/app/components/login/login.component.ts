@@ -5,6 +5,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { NgxPermissionsService, NgxRolesService } from 'ngx-permissions'
 
 import { AuthService } from '../../services/auth.service'
+import { ForgeService } from '../../services/forge.service'
 import {User} from "./../../models/user";
 
 @Component({
@@ -22,6 +23,7 @@ export class LoginComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder, 
               private authService: AuthService, 
+              private forgeService: ForgeService, 
               private router: Router,
               private permissionsService: NgxPermissionsService,
               private rolesService: NgxRolesService) {
@@ -83,10 +85,8 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['']);
         }, 1500);
       }
-    });
-    
+    });    
   }
-
 
   setUserPermissionsAndRole(data:any) {
     var permissions = this.getPermissions();
@@ -120,6 +120,14 @@ export class LoginComponent implements OnInit {
 
   getPermissions() {
     return ["createProject","removeProject","editProject","viewProject"]
+  }
+
+  forgeAuthentication() {
+    console.log("Forge authentication");
+
+    this.forgeService.authenticate().subscribe(data => {
+      console.log(data);
+    });
   }
 
 

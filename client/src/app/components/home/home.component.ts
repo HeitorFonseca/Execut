@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { ProjectsService } from './../../services/projects.service'
+import { ForgeService } from './../../services/forge.service'
+
 import { SharedProject } from "./../../providers/sharedProject"
 import { Project } from "./../../models/project";
 
@@ -15,6 +17,7 @@ export class HomeComponent implements OnInit {
   projects: any;
 
   constructor(private projectsService: ProjectsService,
+              private forgeService: ForgeService,
               private router: Router,
               private _project: SharedProject
             ) { }
@@ -26,6 +29,13 @@ export class HomeComponent implements OnInit {
       //this.propData.propertyData = this.propeties;
 
     });
+
+    console.log("Forge authentication");
+
+    this.forgeService.authenticate().subscribe(data => {
+      console.log(data);
+    });
+    
   }
 
   onRegisterProject() {

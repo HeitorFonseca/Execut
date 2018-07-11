@@ -5,4 +5,4 @@ module.exports = {
     uri: "mongodb://localhost/Execut", // Databse URI and database name
     secret: crypto, // Cryto-created secret
     db: "Execut" // Database name
-  }
+}

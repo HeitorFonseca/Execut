@@ -24,27 +24,42 @@ export class ForgeService {
   requestOptions:any;
 
   constructor(private http: HttpClient, 
-              private router: Router) { }
+              private router: Router) { }                
 
-              
-  
+  getAccessToken() {
 
-  authenticate() {
+    return this.http.get<any>(environment.domain + "forge/oauth/token").pipe(map(res => res));
+  }
 
-      console.log(httpOptions);
+  uploadFile(file: File, bucketKey) {
 
-    let params = new HttpParams();
-    params = params.append('client_id', "aAqXdFKEQm25gTRQMVjdaGxvYSMxuLl0");
-    params = params.append('client_secret', "ENgGD2bgtcuRun6M");
-    params = params.append('grant_type', "client_credentials");
-    params = params.append('scope', "data:read bucket:create bucket:read data:write");
+    
+    const headers = new HttpHeaders();
+    headers.append('Content-Type', 'multipart/form-data');
 
-    return this.http.post(environment.forgeAuthenticationUrl, params, httpOptions).pipe(map(res => res));
+    const fd = new  FormData();
+    fd.append('fileToUpload', file, file.name);
+    fd.append('bucketKey', bucketKey);
 
+    return this.http.post(environment.domain + "forge/oss/objects", fd, {headers: headers} ).pipe(map(res => res));
+  }
+
+  createBucket(bucketName, policy) {
+
+    const headers = new HttpHeaders();
+    headers.append('Content-Type', 'application/json');
+
+    const params = new HttpParams();
+    params.append("bucketKey", bucketName);
+    params.append("policyKey", policy);
+
+    return this.http.post(environment.domain + "forge/oss/buckets", params, {headers: headers} ).pipe(map(res => res));
   }
 
   loadToken() {
     const token = localStorage.getItem('access_token');
     this.access_token = token;
   }
+
+  
 }

@@ -65,12 +65,7 @@ router.post('/register', (req, res) => {
     }
   });
 
-router.post('/login', (req, res) => {
-    
-
-    res.header('Access-Control-Allow-Methods', '*');
-    res.header('Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS');
-    res.header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token');
+router.post('/login', (req, res) => {        
 
     if (!req.body.Username) {
         res.json({success: false, message: 'No username was provided'});

@@ -31,6 +31,14 @@ export class ProjectsService {
     return this.http.post<any>(this.domain + 'project/register', project).pipe(map(res => res));
   }
 
+  removeProject(id) {
+    console.log("delete Project: ", id)
+    let params = new HttpParams();
+    params = params.append('projectId', id);
+
+    return this.http.delete(this.domain + 'project/id', {params: params}).pipe(map(res => res));
+  }
+
   // Function to get project by name
   getProjectByName(id): Observable<Project> {
     let params = new HttpParams();

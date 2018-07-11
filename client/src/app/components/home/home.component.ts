@@ -28,14 +28,14 @@ export class HomeComponent implements OnInit {
       console.log(this.projects);
       //this.propData.propertyData = this.propeties;
 
-    });
+      this.forgeService.createBucket(this.projects.name, "transient").subscribe(data => {
+        console.log("createbucket", data);
+      })
 
-    console.log("Forge authentication");
-
-    this.forgeService.authenticate().subscribe(data => {
-      console.log(data);
-    });
+    });  
     
+
+
   }
 
   onRegisterProject() {

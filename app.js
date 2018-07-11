@@ -8,6 +8,9 @@ var cors = require('cors');
 var authRouter = require('./routes/authentication');
 var projectRouter = require('./routes/projects');
 var statusRouter = require('./routes/stati');
+var oauth = require('./routes/forge/oauthtoken');
+var oss = require('./routes/forge/oss');
+var modelderivative = require('./routes/forge/modelderivative');
 
 var app = express();
 
@@ -22,6 +25,9 @@ app.use('/', express.static(path.join(__dirname, 'dist/mean-angular6')));
 app.use('/api/authentication', authRouter);
 app.use('/api/project', projectRouter);
 app.use('/api/status', statusRouter)
+app.use('/api/forge', oauth); // redirect oauth API calls
+app.use('/api/forge', oss); // redirect OSS API calls
+app.use('/api/forge', modelderivative); // redirect model derivative API calls
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -45,3 +51,4 @@ mongoose.connect('mongodb://localhost/Execut', { promiseLibrary: require('bluebi
   .catch((err) => console.error(err));
   
 module.exports = app;
+

@@ -3,6 +3,8 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 import { Router } from '@angular/router';
 
 import { ProjectsService } from '../../../services/projects.service'
+import { ForgeService } from './../../../services/forge.service'
+
 import { Project } from '../../../models/project';
 
 
@@ -13,14 +15,19 @@ import { Project } from '../../../models/project';
 })
 export class RegisterProjectComponent implements OnInit {
 
-  
+
   form: FormGroup;
   processing;
   messageClass;
   message;
 
+  networkContract = {
+    FilePath:"",
+
+  }
   constructor(private formBuilder: FormBuilder,
               private projectsService: ProjectsService,
+              private forgeService: ForgeService,
               private router: Router) 
   {  
     this.createForm(); // Create Login Form when component is constructed 
@@ -54,15 +61,26 @@ export class RegisterProjectComponent implements OnInit {
         this.message = data.message;
         //this.authService.storeUserData(data.token, data.user);        
 
-        setTimeout(() => {
-          this.router.navigate(['home']);
-        }, 300);
-        //this.setUserPermissionsAndRole(data);
+        
 
+        // setTimeout(() => {
+        //   this.router.navigate(['home']);
+        // }, 300);
       }
     });
+
+
   }
 
+  fileChange(event) {  
+    let fileList: FileList = event.target.files;  
+
+    console.log(fileList);
+
+    this.forgeService.uploadFile(fileList[0], "angulartest").subscribe(data => {
+      console.log("uploadfile",data);
+    });
+  }
   
   createForm()
   {

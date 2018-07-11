@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  forgeAuthenticationUrl: "https://developer.api.autodesk.com/authentication/v1/authenticate/",
+  domain: "http://localhost:3000/api/",
 
 };
 

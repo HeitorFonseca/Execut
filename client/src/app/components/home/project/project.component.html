@@ -3,6 +3,12 @@
 </p>
 
 <div class="row mt-4 ml-2 d-flex">
+  <input class="btn btn-danger" (click)="onRemoveProjectClick()" value="Remover projeto" />
+</div>
+
+<br>
+
+<div class="row mt-4 ml-2 d-flex">
   <input class="btn btn-primary" (click)="onRegisterEmployeeProject()" value="Cadastrar Funcionários" />
 </div>
 <div class="row mt-2 ml-2 d-flex">
@@ -27,12 +33,11 @@
   <app-register-material [project]="project" ></app-register-material>
 </div>
 <div *ngIf="registerOptions.services">
-    <app-register-service [project]="project" ></app-register-service>
+  <app-register-service [project]="project" ></app-register-service>
 </div>
 <div *ngIf="registerOptions.equipments">
-    <app-register-equipment [project]="project" ></app-register-equipment>
+  <app-register-equipment [project]="project" ></app-register-equipment>
 </div>
-
 <div *ngIf="registerOptions.task">
   <app-task></app-task>
 </div>

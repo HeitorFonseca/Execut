@@ -26,6 +26,7 @@ import { RegisterMaterialComponent } from './components/home/register-material/r
 import { RegisterServiceComponent } from './components/home/register-service/register-service.component';
 import { RegisterEquipmentComponent } from './components/home/register-equipment/register-equipment.component';
 import { TaskComponent } from './components/home/task/task.component';
+import { ForgeViewerComponent } from './components/forge-viewer/forge-viewer.component';
 
 
 export function tokenGetter() {
@@ -45,7 +46,8 @@ export function tokenGetter() {
     RegisterMaterialComponent,
     RegisterServiceComponent,
     RegisterEquipmentComponent,
-    TaskComponent
+    TaskComponent,
+    ForgeViewerComponent
   ],
   imports: [
     BrowserModule,
@@ -75,6 +77,10 @@ export function tokenGetter() {
       {
         path: "home",
         component: HomeComponent
+      },
+      {
+        path: "view",
+        component: ForgeViewerComponent
       },
       {
         path: "",

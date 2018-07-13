@@ -1,6 +1,5 @@
 const mongoose = require('mongoose'); // Node Tool for MongoDB
 const Schema = mongoose.Schema; // Import Schema from Mongoose
-const bcrypt = require('bcrypt-nodejs'); // A native JS bcrypt library for NodeJS
 
 const AutoIncrement = require('mongoose-sequence')(mongoose);
 

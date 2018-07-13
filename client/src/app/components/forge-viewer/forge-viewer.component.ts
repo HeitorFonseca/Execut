@@ -1,4 +1,5 @@
 import { Component, ViewChild, OnInit, OnDestroy, ElementRef } from '@angular/core';
+import { ForgeService } from './../../services/forge.service'
 
 declare const Autodesk: any;
 
@@ -13,7 +14,8 @@ export class ForgeViewerComponent implements OnInit, OnDestroy {
   @ViewChild('viewerContainer') viewerContainer: any;
   private viewer: any
 
-  constructor(private elementRef: ElementRef) { }
+  constructor(private elementRef: ElementRef,
+              private forgeService: ForgeService,) { }
 
   ngOnInit() {
   }
@@ -56,16 +58,12 @@ export class ForgeViewerComponent implements OnInit, OnDestroy {
         
         this.loadDocument();
       });
-      // if (!this.viewer.toolbar) {
-      //   this.createUI();
-      // }
     } else {
       console.log("autodesk");
 
       // We need to give an initialised viewing application a tick to allow the DOM element to be established before we re-draw
       setTimeout(() => {
         console.log("timeouted");
-
         this.viewer.initialize();
         this.loadDocument();
       });
@@ -116,10 +114,20 @@ export class ForgeViewerComponent implements OnInit, OnDestroy {
   }
 
   private getAccessToken(onSuccess: any) {
-    const access_token = 'eyJhbGciOiJIUzI1NiIsImtpZCI6Imp3dF9zeW1tZXRyaWNfa2V5In0.eyJjbGllbnRfaWQiOiJhQXFYZEZLRVFtMjVnVFJRTVZqZGFHeHZZU014dUxsMCIsImV4cCI6MTUzMTE3MjM3OCwic2NvcGUiOlsiZGF0YTpyZWFkIiwiYnVja2V0OmNyZWF0ZSIsImJ1Y2tldDpyZWFkIiwiZGF0YTp3cml0ZSJdLCJhdWQiOiJodHRwczovL2F1dG9kZXNrLmNvbS9hdWQvand0ZXhwNjAiLCJqdGkiOiJUNk93QVJUUmNmZWlqbXlQZVdGZVBSeURUcTZyZ2lZYnZ4dHVURXNJaWlCbkl2V3NQNmpERDdvcFdvelE3cXQ0In0.BXT7q2XHzOANuU2tGFMZGLKq1DugtEzC57frFILp8qo';
-    const expires_in = 3599;
 
-    onSuccess(access_token, expires_in);
+
+    console.log("Forge authentication");
+
+    this.forgeService.getAccessToken().subscribe(data => {
+      console.log(data);
+
+      onSuccess(data.access_token, data.expires_in);
+    });
+
+    // const access_token = 'eyJhbGciOiJIUzI1NiIsImtpZCI6Imp3dF9zeW1tZXRyaWNfa2V5In0.eyJjbGllbnRfaWQiOiJhQXFYZEZLRVFtMjVnVFJRTVZqZGFHeHZZU014dUxsMCIsImV4cCI6MTUzMTE3MjM3OCwic2NvcGUiOlsiZGF0YTpyZWFkIiwiYnVja2V0OmNyZWF0ZSIsImJ1Y2tldDpyZWFkIiwiZGF0YTp3cml0ZSJdLCJhdWQiOiJodHRwczovL2F1dG9kZXNrLmNvbS9hdWQvand0ZXhwNjAiLCJqdGkiOiJUNk93QVJUUmNmZWlqbXlQZVdGZVBSeURUcTZyZ2lZYnZ4dHVURXNJaWlCbkl2V3NQNmpERDdvcFdvelE3cXQ0In0.BXT7q2XHzOANuU2tGFMZGLKq1DugtEzC57frFILp8qo';
+    // const expires_in = 3599;
+
+    // onSuccess(access_token, expires_in);
   }
 
   private onToolBarCreatedBinded(event: any) {

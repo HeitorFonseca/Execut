@@ -24,6 +24,7 @@ export class ProjectComponent implements OnInit {
 
   constructor(private _project: SharedProject,
               private route: ActivatedRoute,
+              private router: Router,
               private projectsService: ProjectsService) { }
 
   ngOnInit() {
@@ -41,6 +42,12 @@ export class ProjectComponent implements OnInit {
     })
   }
 
+  onRemoveProjectClick() {
+    this.projectsService.removeProject(this.project.projectId).subscribe(data =>
+    {
+      this.router.navigate(['home'])
+    });
+  }
 
   onRegisterEmployeeProject() {
     this.registerOptions.employee = true;

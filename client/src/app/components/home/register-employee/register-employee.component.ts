@@ -93,7 +93,6 @@ export class RegisterEmployeeComponent implements OnInit {
     this.form.get('role1').value == true ? roles.push("planejador") : "";
     this.form.get('role2').value == true ? roles.push("Supervisor") : "";
     this.form.get('role3').value == true ? roles.push("Colaborador Executor") : "" ;
-
     
     return roles;
   }

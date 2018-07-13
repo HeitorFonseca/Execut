@@ -25,7 +25,15 @@ var server = http.createServer(app);
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
+server.listen(port, function () {
+    
+    if (process.env.FORGE_CLIENT_ID == null || process.env.FORGE_CLIENT_SECRET == null)
+      console.log('*****************\nWARNING: Forge Client ID & Client Secret not defined as environment variables.\n*****************');
+  
+    console.log('Starting at ' + (new Date()).toString());
+    console.log('Server listening on port ' + server.address().port);
+});
+
 server.on('error', onError);
 server.on('listening', onListening);
 

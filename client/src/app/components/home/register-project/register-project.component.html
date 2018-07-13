@@ -1,5 +1,4 @@
-
-<div >
+<div>
 
   <!-- <img src="../../../assets/images/logo.png" width="300px"  /> -->
   <h1>Cadastrar projeto</h1>
@@ -15,9 +14,10 @@
   <form [formGroup]="form" (submit)="onRegisterSubmit()">
 
     <!-- Project Name Field -->
-    <div class="form-group">      
+    <div class="form-group">
       <div [ngClass]="{'has-error': form.controls.name.errors && form.controls.name.dirty, 'has-success': form.controls.name.valid && form.controls.name.dirty }">
-        <input class="form-control input-underline input-lg" type="text" placeholder="Nome do Projeto" name="name" formControlName="name" />
+        <input class="form-control input-underline input-lg" type="text" placeholder="Nome do Projeto" name="name" formControlName="name"
+        />
         <!-- Validation -->
         <ul class="help-block">
           <li *ngIf="form.controls.name.errors?.required && form.controls.name.dirty">Este campo é obrigatório.</li>
@@ -28,7 +28,8 @@
     <!-- Endereço Field  -->
     <div class="form-group">
       <div [ngClass]="{'has-error': form.controls.address.errors && form.controls.address.dirty, 'has-success': form.controls.address.valid && form.controls.address.dirty }">
-        <input class="form-control input-underline input-lg" type="text" placeholder="Endereço" name="address" formControlName="address" />
+        <input class="form-control input-underline input-lg" type="text" placeholder="Endereço" name="address" formControlName="address"
+        />
         <!-- Validation -->
         <ul class="help-block">
           <li *ngIf="form.controls.address.errors?.required && form.controls.address.dirty">Este campo é obrigatório.</li>
@@ -39,7 +40,8 @@
     <!-- Endereço Field  -->
     <div class="form-group">
       <div [ngClass]="{'has-error': form.controls.BIMModel.errors && form.controls.BIMModel.dirty, 'has-success': form.controls.BIMModel.valid && form.controls.BIMModel.dirty }">
-        <input class="form-control-file input-underline input-lg" type="file" placeholder="Importe modelo BIM" name="address" formControlName="BIMModel" />
+        <input class="form-control-file input-underline input-lg" type="file" (change)="fileChange($event)" placeholder="Importe modelo BIM" name="BIMModel" formControlName="BIMModel"
+        />
         <!-- Validation -->
         <ul class="help-block">
           <li *ngIf="form.controls.BIMModel.errors?.required && form.controls.BIMModel.dirty">Este campo é obrigatório.</li>

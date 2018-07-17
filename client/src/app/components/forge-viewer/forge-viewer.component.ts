@@ -57,6 +57,7 @@ export class ForgeViewerComponent implements OnInit, OnDestroy {
         //var viewerApp = new Autodesk.Viewing.ViewingApplication('forgeViewer');
         
         this.loadDocument();
+        this.createUI();
       });
     } else {
       console.log("autodesk");
@@ -148,6 +149,7 @@ export class ForgeViewerComponent implements OnInit, OnDestroy {
 
       /// get current selection
       var selection = _this.viewer.getSelection();
+      console.log("selection", selection);
       _this.viewer.clearSelection();
       // anything selected?
       if (selection.length > 0) {

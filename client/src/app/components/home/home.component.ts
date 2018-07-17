@@ -15,7 +15,8 @@ import { Project } from "./../../models/project";
 export class HomeComponent implements OnInit {
 
   projects: any;
-
+  buckets: Array<any>;
+  
   constructor(private projectsService: ProjectsService,
               private forgeService: ForgeService,
               private router: Router,
@@ -28,9 +29,38 @@ export class HomeComponent implements OnInit {
       console.log(this.projects);
       //this.propData.propertyData = this.propeties;
 
-      this.forgeService.createBucket(this.projects.name, "transient").subscribe(data => {
-        console.log("createbucket", data);
+      let bucketName:string = this.projects[0].name.split(' ').join('').toLowerCase();
+    
+      this.forgeService.getBuckets("#").subscribe(data => {
+        console.log("all buckets", data);
+        this.buckets = data;
+
+        let find = false;
+        for (let bucket of this.buckets) {
+          if (bucket.text == bucketName) {
+            find = true;
+            break;
+          }
+        }
+
+        if (!find) {
+          
+          let reqBucket = {
+            bucketKey: bucketName,
+            policyKey: "transient"
+          }
+
+          console.log(reqBucket);
+          this.forgeService.createBucket(reqBucket).subscribe(data => {
+            console.log("createbucket", data);
+          })
+        }
+
       })
+
+      // this.forgeService.createBucket(reqBucket).subscribe(data => {
+      //   console.log("createbucket", data);
+      // })
 
     });  
     

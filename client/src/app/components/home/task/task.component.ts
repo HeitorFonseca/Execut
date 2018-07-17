@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 
 import { ProjectsService } from '../../../services/projects.service'
@@ -10,7 +10,9 @@ import { Project } from '../../../models/project';
   templateUrl: './task.component.html',
   styleUrls: ['./task.component.css']
 })
-export class TaskComponent implements OnInit {
+export class TaskComponent implements OnInit, OnChanges {
+
+  @Input() project: any;
 
   form:FormGroup;
   employees:any;
@@ -24,6 +26,8 @@ export class TaskComponent implements OnInit {
 
   messageClass;
   message;
+
+  lock = false;
 
   constructor(private formBuilder: FormBuilder, private projectsService: ProjectsService) {
 
@@ -40,26 +44,44 @@ export class TaskComponent implements OnInit {
    }
 
   ngOnInit() {
-    console.log("entrou em task");
+    console.log("entrou em task", this.project.id);
+    if (this.project && !this.lock) {
+      this.getAllFieldsFromProject();
+    }
+  } 
+
+  ngOnChanges(changes: SimpleChanges) {
+    console.log("changes:", changes);
+    if (changes['project']) {
+      let varChange = changes['project'];
+      this.project = varChange.currentValue;
+      this.getAllFieldsFromProject();
+    }
+  }
+
+  getAllFieldsFromProject(){
+    this.lock = true;
+    this.equipments = [];
+    this.materials = [];
 
     this.projectsService.getTaskStatus().subscribe( data => {
       console.log("get ALL STATUS");
       this.stati = data;     
     })
 
-    this.projectsService.getEmployeesByProject(3).subscribe( data => {
+    this.projectsService.getEmployeesByProject(this.project.projectId).subscribe( data => {
       console.log("get employees by project")
       this.employees = data;
       console.log(data);
     })
 
-    this.projectsService.getServicesByProject(3).subscribe( data => {
+    this.projectsService.getServicesByProject(this.project.projectId).subscribe( data => {
       console.log("get services by project");
       this.services = data;
       console.log(data);
     });
 
-    this.projectsService.getMaterialsByProject(3).subscribe( data => {
+    this.projectsService.getMaterialsByProject(this.project.projectId).subscribe( data => {
       console.log("get materials by project");
       let materialsData:any = data;
       console.log(data);
@@ -68,7 +90,7 @@ export class TaskComponent implements OnInit {
       }
     });
 
-    this.projectsService.getEquipmentsByProject(3).subscribe( data => {
+    this.projectsService.getEquipmentsByProject(this.project.projectId).subscribe( data => {
       console.log("get equipments by project");
       let equipmentsData:any = data;
       console.log(data);
@@ -76,7 +98,7 @@ export class TaskComponent implements OnInit {
         this.equipments.push({name:m.name, value:m.equipmentId, checked:false})
       }
     });
-  } 
+  }
 
   onClicked(array, option, event) {
     console.log(array, option);

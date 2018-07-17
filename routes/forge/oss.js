@@ -89,6 +89,7 @@ router.post('/oss/buckets', jsonParser, function (req, res) {
         postBuckets.bucketKey = req.body.bucketKey;
         postBuckets.policyKey = "transient"; // expires in 24h
 
+        console.log("creating bucket",  req.body);
         bucketsApi.createBucket(postBuckets, {}, oauth.OAuthClient(), credentials).then(function (buckets) {
             res.status(200).end();
         }).catch(function (error) {

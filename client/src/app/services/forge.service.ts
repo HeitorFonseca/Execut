@@ -44,16 +44,23 @@ export class ForgeService {
     return this.http.post(environment.domain + "forge/oss/objects", fd, {headers: headers} ).pipe(map(res => res));
   }
 
-  createBucket(bucketName, policy) {
+  createBucket(bucket) {
 
     const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
 
-    const params = new HttpParams();
-    params.append("bucketKey", bucketName);
-    params.append("policyKey", policy);
+    return this.http.post<any>(environment.domain + "forge/oss/buckets", bucket, {headers: headers} ).pipe(map(res => res));
+  }
 
-    return this.http.post(environment.domain + "forge/oss/buckets", params, {headers: headers} ).pipe(map(res => res));
+  getBuckets(id) {
+
+    const headers = new HttpHeaders();
+    headers.append('Content-Type', 'application/json');
+
+    let params = new HttpParams();
+    params = params.append('id', id);
+
+    return this.http.get<any>(environment.domain + "forge/oss/buckets", {params:params} ).pipe(map(res => res));
   }
 
   loadToken() {

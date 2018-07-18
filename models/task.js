@@ -7,23 +7,21 @@ mongoose.Promise = global.Promise; // Configure Mongoose Promises
 
 // Task Model Definition
 const taskSchema = new Schema({ 
-    description: { type: [String], required: true},
-    initialDate: { type: String, required: true},
-    finalDate: { type: String, required: true},
-    status: { type: String, required: true},
-    projectId: {type : Number, required: true},
-    employeeId: {type : Number, required: true},
-    serviceId: {type : Number, required: true},
-    materialId: [{type : Number }],
-    equipmentId: [{type : [Number]}],
-    forgeObjs: [{
-        dbId: String,
-        externalId: String,
-        name: String
+    Description: { type: [String], required: true},
+    InitialDate: { type: String, required: true},
+    FinalDate: { type: String, required: true},
+    Status: { type: String, required: true},
+    ProjectId: {type : Schema.Types.ObjectId, ref : 'Project'},
+    EmployeeId: {type : Number, required: true},
+    ServiceId: {type : Number, required: true},
+    MaterialId: [{type : Number }],
+    EquipmentId: [{type : [Number]}],
+    ForgeObjs: [{
+        DbId: String,
+        ExternalId: String,
+        Name: String
       }]   
 });
-
-taskSchema.plugin(AutoIncrement, {inc_field: 'taskId'});
 
 module.exports = mongoose.model('Task', taskSchema);
 

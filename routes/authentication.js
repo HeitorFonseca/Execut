@@ -8,23 +8,24 @@ const jwt = require('jsonwebtoken'); // Compact, URL-safe means of representing 
 router.post('/register', (req, res) => {
     console.log("registering user");
     // Check if email was provided
-    if (!req.body.email) {
+    if (!req.body.Email) {
       res.json({ success: false, message: 'You must provide an e-mail' }); // Return error
     } else {
       // Check if username was provided
-      if (!req.body.username) {
+      if (!req.body.Username) {
         res.json({ success: false, message: 'You must provide a username' }); // Return error
       } else {
         // Check if password was provided
-        if (!req.body.password) {
+        if (!req.body.Password) {
           res.json({ success: false, message: 'You must provide a password' }); // Return error
         } else {
           // Create new user object and apply user input
           let user = new User({
-            email: req.body.email.toLowerCase(),
-            username: req.body.username.toLowerCase(),
-            password: req.body.password,
-            name:  req.body.name
+            Email: req.body.Email.toLowerCase(),
+            Username: req.body.Username.toLowerCase(),
+            Password: req.body.Password,
+            Name:  req.body.Name,
+            Roles: req.body.Roles
           });
           // Save user to database
           user.save((err) => {
@@ -37,16 +38,16 @@ router.post('/register', (req, res) => {
                 // Check if error is a validation rror
                 if (err.errors) {
                   // Check if validation error is in the email field
-                  if (err.errors.email) {
-                    res.json({ success: false, message: err.errors.email.message }); // Return error
+                  if (err.errors.Email) {
+                    res.json({ success: false, message: err.errors.Email.message }); // Return error
                   } else {
                     // Check if validation error is in the username field
-                    if (err.errors.username) {
-                      res.json({ success: false, message: err.errors.username.message }); // Return error
+                    if (err.errors.Username) {
+                      res.json({ success: false, message: err.errors.Username.message }); // Return error
                     } else {
                       // Check if validation error is in the password field
-                      if (err.errors.password) {
-                        res.json({ success: false, message: err.errors.password.message }); // Return error
+                      if (err.errors.Password) {
+                        res.json({ success: false, message: err.errors.Password.message }); // Return error
                       } else {
                         res.json({ success: false, message: err }); // Return any other error not already covered
                       }
@@ -67,6 +68,7 @@ router.post('/register', (req, res) => {
 
 router.post('/login', (req, res) => {        
 
+    
     if (!req.body.Username) {
         res.json({success: false, message: 'No username was provided'});
     }
@@ -75,7 +77,8 @@ router.post('/login', (req, res) => {
             res.json({ success: false, message: 'No password was provided'});
         }
         else {
-            User.findOne({username: req.body.Username.toLowerCase() }, (err, user) => {
+            console.log(req.body);
+            User.findOne({Username: req.body.Username.toLowerCase() }, (err, user) => {
                 if (err) {
                     res.json({ success: false, message: err});
                 } else {
@@ -83,13 +86,12 @@ router.post('/login', (req, res) => {
                         res.json( { success: false, message: 'Username not found'});
                     } else {
                         const validPassword = user.comparePassword(req.body.Password);
+                        
                         if (!validPassword) {
                             res.json( {success: false, message: 'Password invalid'});
                         } else {
-
                             const token = jwt.sign({UserId: user._id}, config.secret, {expiresIn: '24h'});
-
-                            res.json( {success: true, message: 'Success!', token: token, user: {username: user.username, UserId: user.userId, roles: user.roles}});
+                            res.json( {success: true, message: 'Success!', token: token, user: {Username: user.Username, Id:user._id, Roles: user.Roles}});
                         }
                     }
                 }

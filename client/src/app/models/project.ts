@@ -1,6 +1,7 @@
 export class Project {
-    Id: string;
+    _id: string;
     Name: string;
     Address: string;
-    ModelPath: string;
+    Bimmodel: string;
+    Users: [string]
 }

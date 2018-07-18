@@ -7,12 +7,10 @@ mongoose.Promise = global.Promise; // Configure Mongoose Promises
 
 // employee Model Definition
 const employeeSchema = new Schema({ 
-    name: { type: String, required: true,},    
-    roles: { type: [String], required: true},
-    projectId: {type : Number, required: true}
+    Name: { type: String, required: true,},    
+    Roles: { type: [String], required: true},
+    ProjectId:  {type : Schema.Types.ObjectId, ref : 'Project'}
 });
-
-employeeSchema.plugin(AutoIncrement, {inc_field: 'employeeId'});
 
 module.exports = mongoose.model('Employee', employeeSchema);
 

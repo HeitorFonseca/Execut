@@ -7,12 +7,10 @@ mongoose.Promise = global.Promise; // Configure Mongoose Promises
 
 // Material Model Definition
 const materialSchema = new Schema({ 
-    name: { type: String, required: true,},    
-    description: { type: [String], required: true},
-    projectId: {type : Number, required: true}
+    Name: { type: String, required: true,},    
+    Description: { type: [String], required: true},
+    ProjectId: {type : Schema.Types.ObjectId, ref : 'Project'}
 });
-
-materialSchema.plugin(AutoIncrement, {inc_field: 'materialId'});
 
 module.exports = mongoose.model('Material', materialSchema);
 

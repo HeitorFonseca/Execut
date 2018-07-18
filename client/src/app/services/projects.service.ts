@@ -34,15 +34,15 @@ export class ProjectsService {
   removeProject(id) {
     console.log("delete Project: ", id)
     let params = new HttpParams();
-    params = params.append('projectId', id);
+    params = params.append('ProjectId', id);
 
     return this.http.delete(this.domain + 'project/id', {params: params}).pipe(map(res => res));
   }
 
   // Function to get project by name
-  getProjectByName(id): Observable<Project> {
+  getProjectById(id): Observable<Project> {
     let params = new HttpParams();
-    params = params.append('projectId', id);
+    params = params.append('ProjectId', id);
 
     return this.http.get<Project>(this.domain + 'project/id', {params: params}).pipe(map(res => res));
   }
@@ -52,11 +52,11 @@ export class ProjectsService {
     return this.http.post<any>(this.domain + 'project/registerEmployee', employee).pipe(map(res => res));
   }
 
-  getEmployeesByProject(id): Observable<Project> {
+  getEmployeesByProject(id): Observable<any> {
     let params = new HttpParams();
-    params = params.append('projectId', id);
+    params = params.append('ProjectId', id);
 
-    return this.http.get<Project>(this.domain + 'project/:id/employeer', {params: params}).pipe(map(res => res));
+    return this.http.get<any>(this.domain + 'project/:id/employeer', {params: params}).pipe(map(res => res));
   }
 
   /* Material */
@@ -64,11 +64,24 @@ export class ProjectsService {
     return this.http.post<any>(this.domain + 'project/registerMaterial', material).pipe(map(res => res));
   }
 
-  getMaterialsByProject(id): Observable<Project> {
+  getMaterialsByProject(id): Observable<any> {
     let params = new HttpParams();
-    params = params.append('projectId', id);
+    params = params.append('ProjectId', id);
 
-    return this.http.get<Project>(this.domain + 'project/:id/materials', {params: params}).pipe(map(res => res));
+    return this.http.get<any>(this.domain + 'project/:id/materials', {params: params}).pipe(map(res => res));
+  }
+
+  editMaterial(material) {
+    console.log("edit Material", material);
+    return this.http.put<any>(this.domain + 'project/:id/materials/:id', material).pipe(map(res => res));
+  }
+
+  removeMaterial(material) {
+    console.log("remove Material", material);
+    let params = new HttpParams();
+    params = params.append('name', name);
+
+    return this.http.delete(this.domain + 'project/:id/materials/:id', {params: params}).pipe(map(res => res));
   }
 
   /* Service */
@@ -76,11 +89,11 @@ export class ProjectsService {
     return this.http.post<any>(this.domain + 'project/registerService', service).pipe(map(res => res));
   }
 
-  getServicesByProject(id): Observable<Project> {
+  getServicesByProject(id): Observable<any> {
     let params = new HttpParams();
-    params = params.append('projectId', id);
+    params = params.append('ProjectId', id);
 
-    return this.http.get<Project>(this.domain + 'project/:id/services', {params: params}).pipe(map(res => res));
+    return this.http.get<any>(this.domain + 'project/:id/services', {params: params}).pipe(map(res => res));
   }
 
   /* Equipment */
@@ -88,11 +101,11 @@ export class ProjectsService {
     return this.http.post<any>(this.domain + 'project/registerEquipment', equipment).pipe(map(res => res));
   }
 
-  getEquipmentsByProject(id): Observable<Project> {
+  getEquipmentsByProject(id): Observable<any> {
     let params = new HttpParams();
-    params = params.append('projectId', id);
+    params = params.append('ProjectId', id);
 
-    return this.http.get<Project>(this.domain + 'project/:id/equipments', {params: params}).pipe(map(res => res));
+    return this.http.get<any>(this.domain + 'project/:id/equipments', {params: params}).pipe(map(res => res));
   }
 
   /* Get all status */

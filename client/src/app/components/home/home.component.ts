@@ -14,69 +14,72 @@ import { Project } from "./../../models/project";
 })
 export class HomeComponent implements OnInit {
 
-  projects: any;
+  projects: Array<Project>;
   buckets: Array<any>;
-  
+
   constructor(private projectsService: ProjectsService,
-              private forgeService: ForgeService,
-              private router: Router,
-              private _project: SharedProject
-            ) { }
+    private forgeService: ForgeService,
+    private router: Router,
+    private _project: SharedProject
+  ) { }
 
   ngOnInit() {
-    this.projectsService.getProjects().subscribe ( data => {
-      this.projects = data;
-      console.log(this.projects);
+    this.projectsService.getProjects().subscribe(data => {
+
+      this.projects = data as Array<Project>;
+
+      console.log(data);
       //this.propData.propertyData = this.propeties;
 
-      let bucketName:string = this.projects[0].name.split(' ').join('').toLowerCase();
-    
-      this.forgeService.getBuckets("#").subscribe(data => {
-        console.log("all buckets", data);
-        this.buckets = data;
+      if (this.projects.length > 0) {
+        let bucketName: string = this.projects[0].Name.split(' ').join('').toLowerCase();
 
-        let find = false;
-        for (let bucket of this.buckets) {
-          if (bucket.text == bucketName) {
-            find = true;
-            break;
-          }
-        }
+        this.forgeService.getBuckets("#").subscribe(data => {
+          console.log("all buckets", data);
+          this.buckets = data;
 
-        if (!find) {
-          
-          let reqBucket = {
-            bucketKey: bucketName,
-            policyKey: "transient"
+          let find = false;
+          for (let bucket of this.buckets) {
+            if (bucket.text == bucketName) {
+              find = true;
+              break;
+            }
           }
 
-          console.log(reqBucket);
-          this.forgeService.createBucket(reqBucket).subscribe(data => {
-            console.log("createbucket", data);
-          })
-        }
+          if (!find) {
 
-      })
+            let reqBucket = {
+              bucketKey: bucketName,
+              policyKey: "transient"
+            }
+
+            console.log(reqBucket);
+            this.forgeService.createBucket(reqBucket).subscribe(data => {
+              console.log("createbucket", data);
+            })
+          }
+
+        })
+      }
 
       // this.forgeService.createBucket(reqBucket).subscribe(data => {
       //   console.log("createbucket", data);
       // })
 
-    });  
-    
+    });
+
 
 
   }
 
   onRegisterProject() {
     this.router.navigate(['registerProject'])
-  }  
+  }
 
-  selectProject(property) 
-  {
-    this._project.projectData = property;
-    this.projectsService.getInternProject(property);
-    console.log("propertyName:", property);
-    this.router.navigate(['/project', property.projectId]);
+  selectProject(project:Project) {
+    this._project.projectData = project;
+    this.projectsService.getInternProject(project);
+    console.log("propertyName:", project);
+    this.router.navigate(['/project', project._id]);
   }
 }

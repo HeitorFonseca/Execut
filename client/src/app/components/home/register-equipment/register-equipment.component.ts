@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 
 import { ProjectsService } from '../../../services/projects.service'
 import { Project } from '../../../models/project';
+import { Equipment } from '../../../models/equipment';
 
 
 @Component({
@@ -12,12 +13,14 @@ import { Project } from '../../../models/project';
 })
 export class RegisterEquipmentComponent implements OnInit {
 
-  @Input() project: any;
+  @Input() project: Project;
 
   form: FormGroup;
   processing;
   messageClass;
   message;
+
+  equipments: Array<Equipment>;
 
   constructor(private formBuilder: FormBuilder,
               private projectsService: ProjectsService) {
@@ -25,6 +28,12 @@ export class RegisterEquipmentComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    console.log(this.project);
+    this.projectsService.getEquipmentsByProject(this.project._id).subscribe(data =>{
+      console.log("equipments", data);
+      this.equipments = data as Array<Equipment>;
+    })
   }
 
 
@@ -52,9 +61,9 @@ export class RegisterEquipmentComponent implements OnInit {
 
 
     let reqEquipment = {
-      name: this.form.get('name').value,
-      description: this.form.get('description').value,
-      projectId: this.project.projectId
+      Name: this.form.get('name').value,
+      Description: this.form.get('description').value,
+      ProjectId: this.project._id
     }
 
     console.log(reqEquipment, " ", this.project);

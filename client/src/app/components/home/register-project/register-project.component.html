@@ -42,7 +42,7 @@
       <div [ngClass]="{'has-error': form.controls.BIMModel.errors && form.controls.BIMModel.dirty, 'has-success': form.controls.BIMModel.valid && form.controls.BIMModel.dirty }">
         <input class="form-control-file input-underline input-lg" type="file" (change)="fileChange($event)" placeholder="Importe modelo BIM" name="BIMModel" formControlName="BIMModel"
         />
-        <!-- Validation -->
+       
         <ul class="help-block">
           <li *ngIf="form.controls.BIMModel.errors?.required && form.controls.BIMModel.dirty">Este campo é obrigatório.</li>
         </ul>

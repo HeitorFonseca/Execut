@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 
 import { ProjectsService } from '../../../services/projects.service'
 import { Project } from '../../../models/project';
+import { Employee } from '../../../models/employee';
 
 
 @Component({
@@ -12,12 +13,14 @@ import { Project } from '../../../models/project';
 })
 export class RegisterEmployeeComponent implements OnInit {
 
-  @Input() project: any;
+  @Input() project: Project;
 
   form: FormGroup;
   processing;
   messageClass;
   message;
+
+  employees: Array<Employee>;
 
   constructor(private formBuilder: FormBuilder,
               private projectsService: ProjectsService) {
@@ -25,6 +28,10 @@ export class RegisterEmployeeComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.projectsService.getEmployeesByProject(this.project._id).subscribe( data => {
+      console.log("employees:", data);
+      this.employees = data as Array<Employee>;
+    })
   }
 
 
@@ -56,9 +63,9 @@ export class RegisterEmployeeComponent implements OnInit {
 
 
     let reqEmployee = {
-      name: this.form.get('name').value,
-      roles: this.getRoles(),
-      projectId: this.project.projectId,
+      Name: this.form.get('name').value,
+      Roles: this.getRoles(),
+      ProjectId: this.project._id,
     }
 
     console.log(this.form);

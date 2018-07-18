@@ -7,13 +7,10 @@ mongoose.Promise = global.Promise; // Configure Mongoose Promises
 
 // Project Model Definition
 const projectSchema = new Schema({ 
-    name: { type: String, required: true,  unique: true},
-    address: { type: String, required: true},
-    bimmodel: { type: String, required: true},
-    users: [ {type : Number, ref : 'user'} ]
+    Name: { type: String, required: true,  unique: true},
+    Address: { type: String, required: true},
+    Bimmodel: { type: String, required: true},
+    Users: [ {type : Schema.Types.ObjectId, ref : 'user'} ]
 });
-
-projectSchema.plugin(AutoIncrement, {inc_field: 'projectId'});
-
 
 module.exports = mongoose.model('Project', projectSchema);

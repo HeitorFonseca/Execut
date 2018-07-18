@@ -21,10 +21,6 @@ export class RegisterProjectComponent implements OnInit {
   messageClass;
   message;
 
-  networkContract = {
-    FilePath:"",
-
-  }
   constructor(private formBuilder: FormBuilder,
               private projectsService: ProjectsService,
               private forgeService: ForgeService,
@@ -40,10 +36,10 @@ export class RegisterProjectComponent implements OnInit {
     console.log("OnRegisterSubmit");
 
     let reqProject = {
-      name: this.form.get('name').value,
-      address: this.form.get('address').value,
-      bimmodel: this.form.get('BIMModel').value,
-      users: [JSON.parse(localStorage.getItem('user')).UserId]
+      Name: this.form.get('name').value,
+      Address: this.form.get('address').value,
+      Bimmodel: this.form.get('BIMModel').value,
+      Users: [JSON.parse(localStorage.getItem('user')).Id]
     }
 
     console.log(reqProject);
@@ -77,9 +73,9 @@ export class RegisterProjectComponent implements OnInit {
 
     console.log(fileList);
 
-    this.forgeService.uploadFile(fileList[0], "angulartest").subscribe(data => {
-      console.log("uploadfile",data);
-    });
+    // this.forgeService.uploadFile(fileList[0], "angulartest").subscribe(data => {
+    //   console.log("uploadfile",data);
+    // });
   }
   
   createForm()

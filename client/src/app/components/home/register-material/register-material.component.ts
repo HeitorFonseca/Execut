@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 
 import { ProjectsService } from '../../../services/projects.service'
 import { Project } from '../../../models/project';
+import { Material } from '../../../models/material';
 
 @Component({
   selector: 'app-register-material',
@@ -12,26 +13,35 @@ import { Project } from '../../../models/project';
 export class RegisterMaterialComponent implements OnInit {
 
 
-  @Input() project: any;
+  @Input() project: Project;
 
   form: FormGroup;
   processing;
   messageClass;
   message;
 
+  materials: Array<Material>;
+
   constructor(private formBuilder: FormBuilder,
-              private projectsService: ProjectsService) {
+    private projectsService: ProjectsService) {
     this.createForm();
   }
 
   ngOnInit() {
+    if (this.project) {
+      console.log("materials", this.project);
+      this.projectsService.getMaterialsByProject(this.project._id).subscribe(data => {
+        console.log("materials", data);
+        this.materials = data as Array<Material>;
+      })
+    }
   }
 
 
   createForm() {
     this.form = this.formBuilder.group({
       name: ['', Validators.required],
-      description: ['', Validators.required],     
+      description: ['', Validators.required],
     });
 
   }
@@ -53,15 +63,15 @@ export class RegisterMaterialComponent implements OnInit {
 
 
     let reqMaterial = {
-      name: this.form.get('name').value,
-      description: this.form.get('description').value,
-      projectId: this.project.projectId
+      Name: this.form.get('name').value,
+      Description: this.form.get('description').value,
+      ProjectId: this.project._id
     }
 
     console.log(reqMaterial, " ", this.project);
 
     this.projectsService.registerProjectMaterial(reqMaterial).subscribe(data => {
-      
+
       console.log("register employee:", data);
       if (!data.success) {
         this.messageClass = 'alert alert-danger';
@@ -70,9 +80,16 @@ export class RegisterMaterialComponent implements OnInit {
         this.enableForm();
       } else {
         this.messageClass = 'alert alert-success';
-        this.message = data.message;        
+        this.message = data.message;
       }
     });
   }
 
+  editMaterial(material) {
+
+  }
+
+  removeMaterial(material) {
+
+  }
 }

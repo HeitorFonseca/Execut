@@ -7,10 +7,8 @@ mongoose.Promise = global.Promise; // Configure Mongoose Promises
 
 // Status Model Definition
 const statusSchema = new Schema({ 
-    name: { type: String, required: true},    
+    Name: { type: String, required: true},    
 }, { collection: 'stati' });
-
-statusSchema.plugin(AutoIncrement, {inc_field: 'statusId'});
 
 module.exports = mongoose.model('Stati', statusSchema);
 

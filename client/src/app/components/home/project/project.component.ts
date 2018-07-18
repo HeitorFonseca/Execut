@@ -28,14 +28,11 @@ export class ProjectComponent implements OnInit {
               private projectsService: ProjectsService) { }
 
   ngOnInit() {
-    this.projectsService.currentProject.subscribe(data => this.project = data)
-
-    console.log("data:",this._project.projectData);
 
     var projectId = this.route.snapshot.paramMap.get('id');
     console.log(projectId);
 
-    this.projectsService.getProjectByName(projectId).subscribe(data => {
+    this.projectsService.getProjectById(projectId).subscribe(data => {
       this.project = data;
       
       console.log("http data", this.project);     

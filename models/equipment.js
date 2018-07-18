@@ -7,12 +7,10 @@ mongoose.Promise = global.Promise; // Configure Mongoose Promises
 
 // Equipment Model Definition
 const equipmentSchema = new Schema({ 
-    name: { type: String, required: true,},    
-    description: { type: [String], required: true},
-    projectId: {type : Number, required: true}
+    Name: { type: String, required: true,},    
+    Description: { type: [String], required: true},
+    ProjectId: {type : Schema.Types.ObjectId, ref : 'Project'}
 });
-
-equipmentSchema.plugin(AutoIncrement, {inc_field: 'equipmentId'});
 
 module.exports = mongoose.model('Equipment', equipmentSchema);
 

@@ -1,47 +1,59 @@
+<div>
 
-<div >
+  <!-- <img src="../../../assets/images/logo.png" width="300px"  /> -->
+  <h1>Registrar Serviços</h1>
 
-    <!-- <img src="../../../assets/images/logo.png" width="300px"  /> -->
-    <h1>Registrar Serviços</h1>
-  
-    <!-- Custom Success/Error Message -->
-    <div class="row show-hide-message">
-      <div [ngClass]="messageClass">
-        {{ message }}
-      </div>
+  <!-- Custom Success/Error Message -->
+  <div class="row show-hide-message">
+    <div [ngClass]="messageClass">
+      {{ message }}
     </div>
-  
-    
+  </div>
+
+
+  <div class="list-group" *ngIf="services">
+    <div class="btn-group" role="group" *ngFor="let service of services">
+      <button type="button" (click)="editService(Service)" class="list-group-item list-group-item-action col-lg-3">{{service.Name}}</button>
+      <button type="button" (click)="removeService(Service)" class="btn btn-secondary">x</button>
+    </div>
+  </div>
+
+
+  <br>
+  <br>
+
   <!-- Service Form -->
   <form [formGroup]="form" (submit)="onRegisterSubmit()">
 
-      <!-- Service Name Field -->
-      <div class="form-group">      
-        <div [ngClass]="{'has-error': form.controls.name.errors && form.controls.name.dirty, 'has-success': form.controls.name.valid && form.controls.name.dirty }">
-          <label for="serviceName" class="col-sm-2 col-form-label">Descrição da tarefa</label>
-          <input class="form-control input-underline" type="text" placeholder="Descrição" name="name" formControlName="name" id="serviceName" />
-          <!-- Validation -->
-          <ul class="help-block">
-            <li *ngIf="form.controls.name.errors?.required && form.controls.name.dirty">Este campo é obrigatório.</li>
-          </ul>
-        </div>
+    <!-- Service Name Field -->
+    <div class="form-group">
+      <div [ngClass]="{'has-error': form.controls.name.errors && form.controls.name.dirty, 'has-success': form.controls.name.valid && form.controls.name.dirty }">
+        <label for="serviceName" class="col-sm-2 col-form-label">Descrição da tarefa</label>
+        <input class="form-control input-underline" type="text" placeholder="Descrição" name="name" formControlName="name" id="serviceName"
+        />
+        <!-- Validation -->
+        <ul class="help-block">
+          <li *ngIf="form.controls.name.errors?.required && form.controls.name.dirty">Este campo é obrigatório.</li>
+        </ul>
       </div>
+    </div>
 
-      
-      <!-- Service Description Field -->
-      <div class="form-group">      
-        <div [ngClass]="{'has-error': form.controls.description.errors && form.controls.description.dirty, 'has-success': form.controls.description.valid && form.controls.description.dirty }">
-          <label for="serviceDescription" class="col-sm-2 col-form-label">Descrição</label>
-          <input class="form-control input-underline" type="text" placeholder="Descrição do serviço" name="description" formControlName="description" id="serviceDescription" />
-          <!-- Validation -->
-          <ul class="help-block">
-            <li *ngIf="form.controls.description.errors?.required && form.controls.description.dirty">Este campo é obrigatório.</li>
-          </ul>
-        </div>
+
+    <!-- Service Description Field -->
+    <div class="form-group">
+      <div [ngClass]="{'has-error': form.controls.description.errors && form.controls.description.dirty, 'has-success': form.controls.description.valid && form.controls.description.dirty }">
+        <label for="serviceDescription" class="col-sm-2 col-form-label">Descrição</label>
+        <input class="form-control input-underline" type="text" placeholder="Descrição do serviço" name="description" formControlName="description"
+          id="serviceDescription" />
+        <!-- Validation -->
+        <ul class="help-block">
+          <li *ngIf="form.controls.description.errors?.required && form.controls.description.dirty">Este campo é obrigatório.</li>
+        </ul>
       </div>
+    </div>
 
-      <!-- Submit Button -->
-      <input [disabled]="!form.valid || processing" class="btn btn-primary" type="submit" value="Cadastrar" />
-    </form>
-  
-  </div>
+    <!-- Submit Button -->
+    <input [disabled]="!form.valid || processing" class="btn btn-primary" type="submit" value="Cadastrar" />
+  </form>
+
+</div>

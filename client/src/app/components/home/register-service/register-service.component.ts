@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 
 import { ProjectsService } from '../../../services/projects.service'
 import { Project } from '../../../models/project';
+import { Service } from '../../../models/service';
 
 @Component({
   selector: 'app-register-service',
@@ -12,12 +13,14 @@ import { Project } from '../../../models/project';
 export class RegisterServiceComponent implements OnInit {
 
 
-  @Input() project: any;
+  @Input() project: Project;
 
   form: FormGroup;
   processing;
   messageClass;
   message;
+
+  services: Array<Service>;
 
   constructor(private formBuilder: FormBuilder,
               private projectsService: ProjectsService) {
@@ -25,6 +28,10 @@ export class RegisterServiceComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.projectsService.getServicesByProject(this.project._id).subscribe(data => {
+      console.log("services", data);
+      this.services = data as Array<Service>;
+    });
   }
 
 
@@ -52,9 +59,9 @@ export class RegisterServiceComponent implements OnInit {
 
 
     let reqService = {
-      name: this.form.get('name').value,
-      description: this.form.get('description').value,
-      projectId: this.project.projectId
+      Name: this.form.get('name').value,
+      Description: this.form.get('description').value,
+      ProjectId: this.project._id
     }
 
     console.log(reqService, " ", this.project);

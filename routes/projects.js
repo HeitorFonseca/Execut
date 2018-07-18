@@ -20,9 +20,9 @@ router.get('/', function (req, res, next) {
 /* Get all projects */
 router.get('/:id', function (req, res, next) {
     console.log("get property by id");
-    var query = { projectId: req.query.projectId };
+    var query = { projectId: req.query.ProjectId };
     console.log(query);
-    Project.findOne(query, function (err, project) {
+    Project.findById(req.query.ProjectId, function (err, project) {
         if (err) {
             res.json(err);
         }
@@ -33,7 +33,7 @@ router.get('/:id', function (req, res, next) {
 
 /* Save Project */
 router.post('/register', function (req, res, next) {
-    //console.log("register project:", req.body);
+    console.log("register project:", req.body);
     Project.create(req.body, function (err, project) {
         if (err) {
             console.log(err);
@@ -44,10 +44,10 @@ router.post('/register', function (req, res, next) {
                 res.json({ success: false, message: 'Não foi possivel salvar o projeto. Erro: ', err }); // Return error if not related to validation
             }
         } else {
-            var query = { userId: req.body.users[0] };
-            //console.log("query:", query, "project:", project);
+            var query = { _id: req.body.Users[0] };
+            console.log("query:", query, "project:", project);
             // n x n relationship -> update user with project id
-            User.findOneAndUpdate(query, { $push: { "projects": project.projectId } }, function (err, user) {
+            User.findOneAndUpdate(query, { $push: { "projects": project.ProjectId } }, function (err, user) {
                 if (err) {
                     console.log(err);
                     res.json({ success: false, message: 'Não foi possivel atualizar o usuário. Error: ', err }); // Return error if not related to validation              
@@ -61,18 +61,18 @@ router.post('/register', function (req, res, next) {
     });
 });
 
-/* DELETE Property */
+/* Delete project */
 router.delete('/:id', function (req, res, next) {
-    console.log("delete by id:", req.params);
+    console.log("delete project by id:", req.query);
 
-    var query = { projectId: req.query.projectId };
+    var query = { _id: req.query.ProjectId };
     Project.findOneAndRemove(query, function (err, post) {
         if (err) return next(err);
         res.json(post);
     });
 });
 
-/* Employee */
+/* Register Employee */
 router.post('/registerEmployee', function (req, res, next) {
     console.log("Register employee");
 
@@ -94,7 +94,7 @@ router.get('/:id/employeer', function (req, res, next) {
     //console.log("get all employeer here");  
     //console.log("query", req.query );  
 
-    var query = { projectId: req.query.projectId };
+    var query = { ProjectId: req.query.ProjectId };
 
     Employee.find(query, function (err, employees) {
         if (err) {
@@ -123,10 +123,7 @@ router.post('/registerMaterial', function (req, res, next) {
 });
 
 router.get('/:id/materials', function (req, res, next) {
-    //console.log("get all materials here");  
-    //console.log("query", req.query );  
-
-    var query = { projectId: req.query.projectId };
+    var query = { ProjectId: req.query.ProjectId };
 
     Material.find(query, function (err, materials) {
         if (err) {
@@ -136,6 +133,18 @@ router.get('/:id/materials', function (req, res, next) {
         res.json(materials);
     });
 });
+
+// router.put('/:id/materials/:id', function (req, res, next) {
+//     var query = { ProjectId: req.query.ProjectId };
+
+//     Material.findOneA(query, function (err, materials) {
+//         if (err) {
+//             res.json(err);
+//         }
+//         //console.log(materials);
+//         res.json(materials);
+//     });
+// });
 
 /* Service */
 router.post('/registerService', function (req, res, next) {
@@ -159,7 +168,7 @@ router.get('/:id/services', function (req, res, next) {
     //console.log("get all services here");  
     //console.log("query", req.query );  
 
-    var query = { projectId: req.query.projectId };
+    var query = { ProjectId: req.query.ProjectId };
 
     Service.find(query, function (err, services) {
         if (err) {
@@ -191,7 +200,7 @@ router.get('/:id/equipments', function (req, res, next) {
     //console.log("get all equipments here");  
     //console.log("query", req.query );  
 
-    var query = { projectId: req.query.projectId };
+    var query = { ProjectId: req.query.ProjectId };
 
     Equipment.find(query, function (err, equipments) {
         if (err) {

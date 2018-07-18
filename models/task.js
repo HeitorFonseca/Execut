@@ -15,7 +15,12 @@ const taskSchema = new Schema({
     employeeId: {type : Number, required: true},
     serviceId: {type : Number, required: true},
     materialId: [{type : Number }],
-    equipmentId: [{type : [Number]}]
+    equipmentId: [{type : [Number]}],
+    forgeObjs: [{
+        dbId: String,
+        externalId: String,
+        name: String
+      }]   
 });
 
 taskSchema.plugin(AutoIncrement, {inc_field: 'taskId'});

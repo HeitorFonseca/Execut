@@ -23,7 +23,7 @@ export class TaskComponent implements OnInit, OnChanges {
 
   selectedEmployeer;
   selectedService;
-
+  selectedBIMObjs;
   messageClass;
   message;
 
@@ -142,7 +142,8 @@ export class TaskComponent implements OnInit, OnChanges {
       employeeId: this.form.get('employee').value,
       serviceId: this.form.get('service').value,
       materialId: materialList,
-      equipmentId: equipmentList
+      equipmentId: equipmentList,
+      forgeObjs: this.selectedBIMObjs
     }
 
     console.log("reqTask:", reqTask);
@@ -158,6 +159,12 @@ export class TaskComponent implements OnInit, OnChanges {
       }
 
     });
+  }
+
+  receiverSelectedObjects(selectedObjects) {
+    this.selectedBIMObjs = selectedObjects;
+    console.log('Foi emitido o evento e chegou no pai >>>> ', selectedObjects);
+
   }
 
 }

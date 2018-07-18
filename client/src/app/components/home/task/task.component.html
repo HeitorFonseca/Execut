@@ -97,6 +97,7 @@
 
 </div>
 
-<app-forge-viewer></app-forge-viewer>
+<app-forge-viewer (selectedObjects)="receiverSelectedObjects($event)"></app-forge-viewer>
 
+<br>
 <input class="btn btn-primary ml-2" (click)="onRegisterTaks()" value="Cadastrar Tarefa" />

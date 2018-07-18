@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit, OnDestroy, ElementRef } from '@angular/core';
+import { Component, ViewChild, OnDestroy, ElementRef, OnInit, Output, EventEmitter } from '@angular/core';
 import { ForgeService } from './../../services/forge.service'
 
 declare const Autodesk: any;
@@ -10,9 +10,13 @@ declare const Autodesk: any;
 })
 
 export class ForgeViewerComponent implements OnInit, OnDestroy {
-  private selectedSection: any = null;
+  
+  @Output() selectedObjects = new EventEmitter();
   @ViewChild('viewerContainer') viewerContainer: any;
+  
+  
   private viewer: any
+  private selectedSection: any = null;
 
   constructor(private elementRef: ElementRef,
               private forgeService: ForgeService,) { }
@@ -67,6 +71,8 @@ export class ForgeViewerComponent implements OnInit, OnDestroy {
         console.log("timeouted");
         this.viewer.initialize();
         this.loadDocument();
+        this.createUI();
+
       });
     }
   }
@@ -124,11 +130,6 @@ export class ForgeViewerComponent implements OnInit, OnDestroy {
 
       onSuccess(data.access_token, data.expires_in);
     });
-
-    // const access_token = 'eyJhbGciOiJIUzI1NiIsImtpZCI6Imp3dF9zeW1tZXRyaWNfa2V5In0.eyJjbGllbnRfaWQiOiJhQXFYZEZLRVFtMjVnVFJRTVZqZGFHeHZZU014dUxsMCIsImV4cCI6MTUzMTE3MjM3OCwic2NvcGUiOlsiZGF0YTpyZWFkIiwiYnVja2V0OmNyZWF0ZSIsImJ1Y2tldDpyZWFkIiwiZGF0YTp3cml0ZSJdLCJhdWQiOiJodHRwczovL2F1dG9kZXNrLmNvbS9hdWQvand0ZXhwNjAiLCJqdGkiOiJUNk93QVJUUmNmZWlqbXlQZVdGZVBSeURUcTZyZ2lZYnZ4dHVURXNJaWlCbkl2V3NQNmpERDdvcFdvelE3cXQ0In0.BXT7q2XHzOANuU2tGFMZGLKq1DugtEzC57frFILp8qo';
-    // const expires_in = 3599;
-
-    // onSuccess(access_token, expires_in);
   }
 
   private onToolBarCreatedBinded(event: any) {
@@ -142,11 +143,6 @@ export class ForgeViewerComponent implements OnInit, OnDestroy {
     var handleSelectionToolbarButton = new Autodesk.Viewing.UI.Button('handleSelectionButton');
     handleSelectionToolbarButton.onClick = function (e) {
 
-      // **********************
-      //
-      //
-      // Execute an action here
-
       /// get current selection
       var selection = _this.viewer.getSelection();
       console.log("selection", selection);
@@ -155,27 +151,16 @@ export class ForgeViewerComponent implements OnInit, OnDestroy {
       if (selection.length > 0) {
         // create an array to store dbIds to isolate
         var dbIdsToChange = [];
+        var propObjects = []
 
-        // iterate through the list of selected dbIds
-        selection.forEach(function (dbId) {
-          // get properties of each dbId
-          _this.viewer.getProperties(dbId, function (props) {
-            // output on console, for fun...
-            console.log(props);
+        for(var i = 0, len = selection.length; i < len; i++) {
+          propObjects.push(_this.getProps(_this, selection[i], propObjects));
+        }
 
-            // ask if want to isolate
-            if (confirm('Confirm ' + props.name + ' (' + props.externalId + ')?')) {
-              dbIdsToChange.push(dbId);
-
-              // at this point we know which elements to isolate
-              if (dbIdsToChange.length > 0) {
-                // isolate selected (and confirmed) dbIds
-                _this.viewer.isolate(dbIdsToChange);
-              }
-            }
-          })
+        Promise.all(propObjects).then(data => {
+          _this.selectedObjects.emit(data); 
         })
-
+       
       }
       else {
         // if nothing selected, restore
@@ -194,5 +179,26 @@ export class ForgeViewerComponent implements OnInit, OnDestroy {
     this.subToolbar.addControl(handleSelectionToolbarButton);
 
     this.viewer.toolbar.addControl(this.subToolbar);
+  }
+
+
+  getProps(_this, dbId, propObjects) {
+    return new Promise((resolve, reject )=> {
+      _this.viewer.getProperties(dbId, function (props) {
+        // output on console, for fun...
+        console.log("colocou no propObjects:",props);
+        
+        let obj = {
+          dbId: props.dbId,
+          name: props.name,
+          externalId: props.externalId
+        }
+
+
+        resolve(obj);
+       
+      })
+    })
+   
   }
 }

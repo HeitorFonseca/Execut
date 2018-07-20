@@ -29,47 +29,27 @@ export class HomeComponent implements OnInit {
       this.projects = data as Array<Project>;
 
       console.log(data);
-      //this.propData.propertyData = this.propeties;
 
       if (this.projects.length > 0) {
         let bucketName: string = this.projects[0].Name.split(' ').join('').toLowerCase();
 
         this.forgeService.getBuckets("#").subscribe(data => {
           console.log("all buckets", data);
-          this.buckets = data;
-
-          let find = false;
-          for (let bucket of this.buckets) {
-            if (bucket.text == bucketName) {
-              find = true;
-              break;
-            }
-          }
-
-          if (!find) {
-
-            let reqBucket = {
-              bucketKey: bucketName,
-              policyKey: "transient"
-            }
-
-            console.log(reqBucket);
-            this.forgeService.createBucket(reqBucket).subscribe(data => {
-              console.log("createbucket", data);
-            })
-          }
-
+          this.buckets = data;         
         })
       }
-
-      // this.forgeService.createBucket(reqBucket).subscribe(data => {
-      //   console.log("createbucket", data);
-      // })
-
     });
 
+    
+    // let req = {
+    //   bucketKey: "execut",
+    //   objectName: "dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6ZXhlY3V0L2FwYXJ0YW1lbnRvLnJ2dA"
+    // }
 
+    // this.forgeService.translate(req).subscribe(data =>{
+    //   console.log("translate: ", data);
 
+    // })
   }
 
   onRegisterProject() {

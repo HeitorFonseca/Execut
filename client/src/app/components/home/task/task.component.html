@@ -56,21 +56,21 @@
     <div class="form-group">
       <label>Status: </label>
       <select class="form-control col-md-2" formControlName="status">
-        <option *ngFor="let status of stati" [value]="status.statusId">{{status.name}}</option>
+        <option *ngFor="let status of stati" [value]="status.statusId">{{status.Name}}</option>
       </select>
     </div>
 
     <div class="form-group">
       <label>Funcionário: </label>
       <select class="form-control col-md-2" formControlName="employee">
-        <option *ngFor="let employeer of employees" [value]="employeer.employeeId">{{employeer.name}}</option>
+        <option *ngFor="let employeer of employees" [value]="employeer._id">{{employeer.Name}}</option>
       </select>
     </div>
 
     <div class="form-group">
       <label>Serviço: </label>
       <select class="form-control col-md-2" formControlName="service">
-        <option *ngFor="let service of services" [value]="service.serviceId">{{service.name}}</option>
+        <option *ngFor="let service of services" [value]="service._id">{{service.Name}}</option>
       </select>
     </div>
 
@@ -78,7 +78,7 @@
       <label for="materials">Materiais:</label>
       <div *ngFor="let option of materials">
         <label>
-          <input type="checkbox" name="materials" value="{{option.materialId}}" (change)="onClicked(materials, option, $event)" /> {{option.name}}
+          <input type="checkbox" name="materials" value="{{option._id}}" (change)="onClicked(materials, option, $event)" /> {{option.Name}}
         </label>
       </div>
     </div>
@@ -87,8 +87,8 @@
       <label for="equipments">Equipamentos:</label>
       <div *ngFor="let option of equipments">
         <label>
-          <input type="checkbox" name="equipments" value="{{option.equipmentId}}" (change)="onClicked(equipments, option, $event)"
-          /> {{option.name}}
+          <input type="checkbox" name="equipments" value="{{option._id}}" (change)="onClicked(equipments, option, $event)"
+          /> {{option.Name}}
         </label>
       </div>
 

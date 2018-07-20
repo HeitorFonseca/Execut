@@ -53,7 +53,7 @@ router.post('/register', function (req, res, next) {
                     res.json({ success: false, message: 'Não foi possivel atualizar o usuário. Error: ', err }); // Return error if not related to validation              
                 }
                 else {
-                    res.json({ success: true, message: 'Projeto registrado!' }); // Return success
+                    res.json({ success: true, message: 'Projeto registrado!', project: project }); // Return success
                 }
             });
         }
@@ -87,7 +87,7 @@ router.post('/registerEmployee', function (req, res, next) {
             console.log("funcionario registrado");
             res.json({ success: true, message: 'Funcionário registrado!' }); // Return success
         }
-    });
+    }); 
 });
 
 router.get('/:id/employeer', function (req, res, next) {

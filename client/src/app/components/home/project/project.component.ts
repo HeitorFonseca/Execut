@@ -12,7 +12,7 @@ import { Project } from "./../../../models/project";
 })
 export class ProjectComponent implements OnInit {
 
-  project: any;
+  project: Project;
 
   registerOptions = {
     employee: false,
@@ -40,7 +40,7 @@ export class ProjectComponent implements OnInit {
   }
 
   onRemoveProjectClick() {
-    this.projectsService.removeProject(this.project.projectId).subscribe(data =>
+    this.projectsService.removeProject(this.project._id).subscribe(data =>
     {
       this.router.navigate(['home'])
     });

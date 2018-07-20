@@ -27,7 +27,6 @@ export class ForgeService {
               private router: Router) { }                
 
   getAccessToken() {
-
     return this.http.get<any>(environment.domain + "forge/oauth/token").pipe(map(res => res));
   }
 
@@ -41,7 +40,7 @@ export class ForgeService {
     fd.append('fileToUpload', file, file.name);
     fd.append('bucketKey', bucketKey);
 
-    return this.http.post(environment.domain + "forge/oss/objects", fd, {headers: headers} ).pipe(map(res => res));
+    return this.http.post<any>(environment.domain + "forge/oss/objects", fd, {headers: headers} ).pipe(map(res => res));
   }
 
   createBucket(bucket) {
@@ -61,6 +60,26 @@ export class ForgeService {
     params = params.append('id', id);
 
     return this.http.get<any>(environment.domain + "forge/oss/buckets", {params:params} ).pipe(map(res => res));
+  }
+
+  deleteBucket(id) {
+
+    const headers = new HttpHeaders();
+    headers.append('Content-Type', 'application/json');
+
+    let params = new HttpParams();
+    params = params.append('bucketKey', id);
+
+    return this.http.delete<any>(environment.domain + "forge/oss/buckets/:bucketKey", {params:params} ).pipe(map(res => res));
+  }
+
+  translate(req) {
+    const headers = new HttpHeaders();
+    headers.append('Content-Type', 'application/json');
+
+    let dt = JSON.stringify({ 'bucketKey': "execut", 'objectName': "apartamento.rvt" })
+
+    return this.http.post<any>(environment.domain + "forge/modelderivative/jobs", req, {headers: headers} ).pipe(map(res => res));
   }
 
   loadToken() {

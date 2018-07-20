@@ -34,6 +34,7 @@ var oauth = require('./oauth');
 
 // Create a new bucket 
 router.post('/modelderivative/jobs', jsonParser, function (req, res) {
+    console.log("REQ:", req.body);
     oauth.getTokenInternal().then(function (credentials) {
         // prepare the translation job payload
         var postJob = new forgeSDK.JobPayload();
@@ -44,7 +45,7 @@ router.post('/modelderivative/jobs', jsonParser, function (req, res) {
         );
         postJob.output.formats[0].type = 'svf';
         postJob.output.formats[0].views = ['2d', '3d'];
-
+        console.log("chegou aqui");
         // create the derivative API 
         var derivativesApi = new forgeSDK.DerivativesApi();
         // post the job

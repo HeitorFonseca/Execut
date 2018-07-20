@@ -3,5 +3,7 @@ export class Project {
     Name: string;
     Address: string;
     Bimmodel: string;
-    Users: [string]
+    Users: [string];
+    ObjectKey: string;
+    BucketName: string;
 }

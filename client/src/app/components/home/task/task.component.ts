@@ -72,6 +72,7 @@ export class TaskComponent implements OnInit, OnChanges {
     this.projectsService.getTaskStatus().subscribe( data => {
       console.log("get ALL STATUS");
       this.stati = data;     
+      console.log(data);
     })
 
     this.projectsService.getEmployeesByProject(this.project._id).subscribe( data => {
@@ -91,7 +92,7 @@ export class TaskComponent implements OnInit, OnChanges {
       let materialsData:any = data;
       console.log(data);
       for(let m of materialsData) {
-        this.materials.push({name:m.name, value:m.materialId, checked:false})
+        this.materials.push({Name:m.Name, value:m._id, checked:false})
       }
     });
 
@@ -100,7 +101,7 @@ export class TaskComponent implements OnInit, OnChanges {
       let equipmentsData:any = data;
       console.log(data);
       for(let m of equipmentsData) {
-        this.equipments.push({name:m.name, value:m.equipmentId, checked:false})
+        this.equipments.push({Name:m.Name, value:m._id, checked:false})
       }
     });
   }
@@ -148,12 +149,12 @@ export class TaskComponent implements OnInit, OnChanges {
       InitialDate: initDt.year +  "-" + initDt.month + "-" + initDt.day,//this.form.get('initialDate').value,
       FinalDate: finDt.year +  "-" + finDt.month + "-" + finDt.day, //this.form.get('finalDate').value,
       Status: this.form.get('status').value,
-      ProjectId: 3,
+      ProjectId: this.project._id,
       EmployeeId: this.form.get('employee').value,
       ServiceId: this.form.get('service').value,
       MaterialId: materialList,
       EquipmentId: equipmentList,
-      forgeObjs: this.selectedBIMObjs
+      ForgeObjs: this.selectedBIMObjs
     }
 
     console.log("reqTask:", reqTask);

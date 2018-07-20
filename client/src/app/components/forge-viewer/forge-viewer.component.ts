@@ -22,6 +22,8 @@ export class ForgeViewerComponent implements OnInit, OnDestroy {
               private forgeService: ForgeService,) { }
 
   ngOnInit() {
+
+
   }
 
   ngAfterViewInit() {
@@ -80,7 +82,7 @@ export class ForgeViewerComponent implements OnInit, OnDestroy {
   private loadDocument() {
     console.log("load document");
 
-    const urn = 'urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6ZXhlY3V0dGVzdC9hcGFydGFtZW50by5ydnQ';
+    const urn = 'urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6ZXhlY3V0L2FwYXJ0YW1lbnRvLnJ2dA';
 
     Autodesk.Viewing.Document.load(urn, (doc) => {
       const geometryItems = Autodesk.Viewing.Document.getSubItemsWithProperties(doc.getRootItem(), { type: 'geometry' }, true);
@@ -127,7 +129,6 @@ export class ForgeViewerComponent implements OnInit, OnDestroy {
 
     this.forgeService.getAccessToken().subscribe(data => {
       console.log(data);
-
       onSuccess(data.access_token, data.expires_in);
     });
   }
@@ -193,7 +194,6 @@ export class ForgeViewerComponent implements OnInit, OnDestroy {
           name: props.name,
           externalId: props.externalId
         }
-
 
         resolve(obj);
        

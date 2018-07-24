@@ -1,9 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 
-import { ProjectsService } from '../../../services/projects.service'
-import { Project } from '../../../models/project';
-import { Material } from '../../../models/material';
+import { ProjectsService } from '../../../../services/projects.service'
+import { Project } from '../../../../models/project';
+import { Material } from '../../../../models/material';
 
 @Component({
   selector: 'app-register-material',
@@ -30,7 +30,7 @@ export class RegisterMaterialComponent implements OnInit {
   ngOnInit() {
     if (this.project) {
       console.log("materials", this.project);
-      this.projectsService.getMaterialsByProject(this.project._id).subscribe(data => {
+      this.projectsService.getMaterialsByProject(this.project.id).subscribe(data => {
         console.log("materials", data);
         this.materials = data as Array<Material>;
       })
@@ -63,9 +63,9 @@ export class RegisterMaterialComponent implements OnInit {
 
 
     let reqMaterial = {
-      Name: this.form.get('name').value,
-      Description: this.form.get('description').value,
-      ProjectId: this.project._id
+      name: this.form.get('name').value,
+      description: this.form.get('description').value,
+      projectId: this.project.id
     }
 
     console.log(reqMaterial, " ", this.project);

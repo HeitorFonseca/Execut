@@ -1,0 +1,65 @@
+
+<h1> Perfil </h1>
+
+
+<div class="row">
+  <div class="col-xl-2 text-xs-center">
+    <ul class="nav nav-pills flex-column">
+      <li class="nav-item">
+        <a class="nav-link active " data-toggle="pill" href="#home">Dados</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link " data-toggle="pill" href="#menu1">Alterar Senha</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="pill" href="#menu2">Plano</a>
+      </li>
+    </ul>
+  </div>
+  <div class="col-xl-8 text-xs-center">
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <div class="tab-pane container active " id="home">
+
+        <form [formGroup]="formUserData" class="form-inline">
+          <label for="nameFormInput">Nome</label>
+          <input type="text" class="form-control mr-sm-2 mb-sm-0 ml-2" id="nameFormInput" formControlName="name">
+
+          <label for="usernameFormInput2">Username</label>
+          <input type="text" class="form-control mr-sm-2 mb-sm-0 ml-2" id="usernameFormInput2" formControlName="username">  
+          
+          <label for="emailFormInput2">Email</label>
+          <input type="text" class="form-control mr-sm-2 mb-sm-0 ml-2" id="emailFormInput2" formControlName="email"> 
+        </form>
+        
+        <button type="button" (click)="editUser()" class="btn btn-secondary mt-2">Editar Usuário</button>
+
+        <br>
+        <br>
+        <!-- Custom Success/Error Message -->
+        <div class="row show-hide-message">
+          <div [ngClass]="messageClass">
+            {{ message }}
+          </div>
+        </div>
+            
+      </div>
+      <div class="tab-pane container " id="menu1">
+          <form [formGroup]="formPassword" class="form">
+              <label for="currentPassword">Senha atual</label>
+              <input type="password" class="form-control mr-sm-2 mb-sm-0" id="currentPassword" formControlName="currentPassword">
+              <br>
+              <label for="newPassword">Nova Senha</label>
+              <input type="password" class="form-control mr-sm-2 mb-sm-0" id="newPassword" formControlName="newPassword">     
+              
+              <br>
+              <input class="btn btn-primary" type="submit" value="Mudar Senha" />
+
+            </form>
+      </div>
+      <div class="tab-pane container fade" id="menu2">
+        ...
+      </div>
+    </div>
+  </div>
+</div>

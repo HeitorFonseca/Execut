@@ -1,9 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 
-import { ProjectsService } from '../../../services/projects.service'
-import { Project } from '../../../models/project';
-import { Equipment } from '../../../models/equipment';
+import { ProjectsService } from '../../../../services/projects.service'
+import { Project } from '../../../../models/project';
+import { Equipment } from '../../../../models/equipment';
 
 
 @Component({
@@ -30,7 +30,7 @@ export class RegisterEquipmentComponent implements OnInit {
   ngOnInit() {
 
     console.log(this.project);
-    this.projectsService.getEquipmentsByProject(this.project._id).subscribe(data =>{
+    this.projectsService.getEquipmentsByProject(this.project.id).subscribe(data =>{
       console.log("equipments", data);
       this.equipments = data as Array<Equipment>;
     })
@@ -61,9 +61,9 @@ export class RegisterEquipmentComponent implements OnInit {
 
 
     let reqEquipment = {
-      Name: this.form.get('name').value,
-      Description: this.form.get('description').value,
-      ProjectId: this.project._id
+      name: this.form.get('name').value,
+      description: this.form.get('description').value,
+      projectId: this.project.id
     }
 
     console.log(reqEquipment, " ", this.project);

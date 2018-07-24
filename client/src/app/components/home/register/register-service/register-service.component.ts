@@ -1,9 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 
-import { ProjectsService } from '../../../services/projects.service'
-import { Project } from '../../../models/project';
-import { Service } from '../../../models/service';
+import { ProjectsService } from '../../../../services/projects.service'
+import { Project } from '../../../../models/project';
+import { Service } from '../../../../models/service';
 
 @Component({
   selector: 'app-register-service',
@@ -28,7 +28,7 @@ export class RegisterServiceComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.projectsService.getServicesByProject(this.project._id).subscribe(data => {
+    this.projectsService.getServicesByProject(this.project.id).subscribe(data => {
       console.log("services", data);
       this.services = data as Array<Service>;
     });
@@ -59,9 +59,9 @@ export class RegisterServiceComponent implements OnInit {
 
 
     let reqService = {
-      Name: this.form.get('name').value,
-      Description: this.form.get('description').value,
-      ProjectId: this.project._id
+      name: this.form.get('name').value,
+      description: this.form.get('description').value,
+      projectId: this.project.id
     }
 
     console.log(reqService, " ", this.project);

@@ -1,6 +1,6 @@
 export class Material {
-    Id: string;
-    Name: string;
-    Description: string;
+    id: string;
+    name: string;
+    description: string;
     projectId: number;
 }

@@ -31,7 +31,7 @@ export class HomeComponent implements OnInit {
       console.log(data);
 
       if (this.projects.length > 0) {
-        let bucketName: string = this.projects[0].Name.split(' ').join('').toLowerCase();
+        let bucketName: string = this.projects[0].name.split(' ').join('').toLowerCase();
 
         this.forgeService.getBuckets("#").subscribe(data => {
           console.log("all buckets", data);
@@ -60,6 +60,6 @@ export class HomeComponent implements OnInit {
     this._project.projectData = project;
     this.projectsService.getInternProject(project);
     console.log("propertyName:", project);
-    this.router.navigate(['/project', project._id]);
+    this.router.navigate(['/project', project.id]);
   }
 }

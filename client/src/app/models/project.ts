@@ -1,9 +1,9 @@
 export class Project {
-    _id: string;
-    Name: string;
-    Address: string;
-    Bimmodel: string;
-    Users: [string];
-    ObjectKey: string;
-    BucketName: string;
+    id: string;
+    name: string;
+    address: string;
+    bimModel: string;
+    users: [string];
+    objectKey: string;
+    bucketName: string;
 }

@@ -23,9 +23,10 @@
                 <i class="fa fa-user"></i> {{username}} <b class="caret"></b>
             </a>
             <div class="dropdown-menu dropdown-menu-right" ngbDropdownMenu >
-                <!-- <a class="dropdown-item" href="javascript:void(0)" >
-                    <i class="fas fa-map"></i> Propriedades
+                <a class="dropdown-item" [routerLink]="['/profile']" >
+                    <i class="fas fa-map"></i> Profile
                 </a>
+                <!-- 
                 <a class="dropdown-item" href="javascript:void(0)">
                     <i class="fa fa-fw fa-envelope"></i> Inbox
                 </a>

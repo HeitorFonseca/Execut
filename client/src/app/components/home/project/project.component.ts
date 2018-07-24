@@ -40,7 +40,7 @@ export class ProjectComponent implements OnInit {
   }
 
   onRemoveProjectClick() {
-    this.projectsService.removeProject(this.project._id).subscribe(data =>
+    this.projectsService.removeProject(this.project.id).subscribe(data =>
     {
       this.router.navigate(['home'])
     });

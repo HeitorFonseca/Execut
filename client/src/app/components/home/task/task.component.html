@@ -9,15 +9,27 @@
     </div>
   </div>
 
+
+  <div class="list-group" *ngIf="tasks">
+      <div class="btn-group" role="group" *ngFor="let task of tasks; let i = index">
+        <button type="button" (click)="editTask(task)" class="list-group-item list-group-item-action col-lg-3">{{task.description}}</button>
+        <button type="button" (click)="removeTask(task, i)" class="btn btn-secondary">x</button>
+      </div>
+    </div>
+  
+  
+    <br>
+    <br>
+  
+
   <!-- Task Form -->
   <form [formGroup]="form" (submit)="onRegisterSubmit()">
 
     <!-- Task description Field -->
     <div class="form-group">
       <div [ngClass]="{'has-error': form.controls.description.errors && form.controls.description.dirty, 'has-success': form.controls.description.valid && form.controls.description.dirty }">
-        <label for="serviceName" class="col-sm-2 col-form-label">Nome</label>
-        <input class="form-control input-underline" type="text" placeholder="Descrição da tarefa" name="description" formControlName="description"
-          id="serviceName" />
+        <label for="description" class="col-sm-2 col-form-label">Descrição da tarefa</label>
+        <input class="form-control input-underline" type="text" placeholder="Descrição da tarefa" name="description" formControlName="description"  id="description" />
         <!-- Validation -->
         <ul class="help-block">
           <li *ngIf="form.controls.description.errors?.required && form.controls.description.dirty">Este campo é obrigatório.</li>
@@ -31,8 +43,7 @@
         <label> Data Inicial </label>
         <div [ngClass]="{'has-error': form.controls.initialDate.errors && form.controls.initialDate.dirty, 'has-success': form.controls.initialDate.valid && form.controls.initialDate.dirty }">
             <div class="input-group datepicker-input">
-                <input class="form-control col-md-2" name="dp1" ngbDatepicker #d="ngbDatepicker" placeholder="yyyy-mm-dd" name="initialDate" formControlName="initialDate"
-                />
+                <input class="form-control col-md-2" name="dp1" ngbDatepicker #d="ngbDatepicker" placeholder="yyyy-mm-dd" name="initialDate" formControlName="initialDate"/>
                 <button class="input-group-addon" (click)="d.toggle()" type="button">
                     <span class="fa fa-calendar"></span>
                 </button>
@@ -56,21 +67,21 @@
     <div class="form-group">
       <label>Status: </label>
       <select class="form-control col-md-2" formControlName="status">
-        <option *ngFor="let status of stati" [value]="status.statusId">{{status.Name}}</option>
+        <option *ngFor="let status of stati" [value]="status.statusId">{{status.name}}</option>
       </select>
     </div>
 
     <div class="form-group">
       <label>Funcionário: </label>
       <select class="form-control col-md-2" formControlName="employee">
-        <option *ngFor="let employeer of employees" [value]="employeer._id">{{employeer.Name}}</option>
+        <option *ngFor="let employeer of employees" [value]="employeer.id">{{employeer.name}}</option>
       </select>
     </div>
 
     <div class="form-group">
       <label>Serviço: </label>
       <select class="form-control col-md-2" formControlName="service">
-        <option *ngFor="let service of services" [value]="service._id">{{service.Name}}</option>
+        <option *ngFor="let service of services" [value]="service.id">{{service.name}}</option>
       </select>
     </div>
 
@@ -78,7 +89,7 @@
       <label for="materials">Materiais:</label>
       <div *ngFor="let option of materials">
         <label>
-          <input type="checkbox" name="materials" value="{{option._id}}" (change)="onClicked(materials, option, $event)" /> {{option.Name}}
+          <input type="checkbox" name="materials" value="{{option.id}}" (change)="onClicked(materials, option, $event)" /> {{option.name}}
         </label>
       </div>
     </div>
@@ -87,17 +98,17 @@
       <label for="equipments">Equipamentos:</label>
       <div *ngFor="let option of equipments">
         <label>
-          <input type="checkbox" name="equipments" value="{{option._id}}" (change)="onClicked(equipments, option, $event)"
-          /> {{option.Name}}
+          <input type="checkbox" name="equipments" value="{{option.id}}" (change)="onClicked(equipments, option, $event)"
+          /> {{option.name}}
         </label>
-      </div>
-
+      </div>    
     </div>
   </form>
-
 </div>
 
-<app-forge-viewer (selectedObjects)="receiverSelectedObjects($event)"></app-forge-viewer>
+<div class="ml-2" *ngIf="project">
+    <app-forge-viewer [project]="project" (selectedObjects)="receiverSelectedObjects($event)"></app-forge-viewer>
+</div>
 
 <br>
 <input class="btn btn-primary ml-2" (click)="onRegisterTaks()" value="Cadastrar Tarefa" />

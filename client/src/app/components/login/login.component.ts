@@ -56,8 +56,8 @@ export class LoginComponent implements OnInit {
 
     // Create user object from user's input
     let user = {
-      Username: this.form.get('username').value, // Username input field
-      Password: this.form.get('password').value // Password input field
+      username: this.form.get('username').value, // Username input field
+      password: this.form.get('password').value // Password input field
     }
 
     console.log(user);

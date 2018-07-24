@@ -25,7 +25,8 @@ export class TaskComponent implements OnInit, OnChanges {
   equipments:Array<any> = [];
   materials: Array<any> = [];
   stati: Array<any> = [];
-
+  tasks: Array<Task>;
+  
   selectedEmployeer;
   selectedService;
   selectedBIMObjs;
@@ -49,9 +50,15 @@ export class TaskComponent implements OnInit, OnChanges {
    }
 
   ngOnInit() {
-    console.log("entrou em task", this.project._id);
+    console.log("entrou em task", this.project.id);
     if (this.project && !this.lock) {
       this.getAllFieldsFromProject();
+
+      this.projectsService.getTasks(this.project.id).subscribe( data => {
+        console.log("tasks", data);
+
+        this.tasks = data as Array<Task>;
+      });
     }
   } 
 
@@ -61,6 +68,12 @@ export class TaskComponent implements OnInit, OnChanges {
       let varChange = changes['project'];
       this.project = varChange.currentValue;
       this.getAllFieldsFromProject();
+
+      this.projectsService.getTasks(this.project.id).subscribe( data => {
+        console.log("tasks:", data);
+
+        this.tasks = data as Array<Task>;
+      });
     }
   }
 
@@ -70,38 +83,38 @@ export class TaskComponent implements OnInit, OnChanges {
     this.materials = [];
 
     this.projectsService.getTaskStatus().subscribe( data => {
-      console.log("get ALL STATUS");
+      console.log("get status");
       this.stati = data;     
       console.log(data);
     })
 
-    this.projectsService.getEmployeesByProject(this.project._id).subscribe( data => {
+    this.projectsService.getEmployeesByProject(this.project.id).subscribe( data => {
       console.log("get employees by project")
       this.employees = data;
       console.log(data);
     })
 
-    this.projectsService.getServicesByProject(this.project._id).subscribe( data => {
+    this.projectsService.getServicesByProject(this.project.id).subscribe( data => {
       console.log("get services by project");
       this.services = data;
       console.log(data);
     });
 
-    this.projectsService.getMaterialsByProject(this.project._id).subscribe( data => {
+    this.projectsService.getMaterialsByProject(this.project.id).subscribe( data => {
       console.log("get materials by project");
       let materialsData:any = data;
       console.log(data);
       for(let m of materialsData) {
-        this.materials.push({Name:m.Name, value:m._id, checked:false})
+        this.materials.push({name:m.name, value:m.id, checked:false})
       }
     });
 
-    this.projectsService.getEquipmentsByProject(this.project._id).subscribe( data => {
+    this.projectsService.getEquipmentsByProject(this.project.id).subscribe( data => {
       console.log("get equipments by project");
       let equipmentsData:any = data;
       console.log(data);
       for(let m of equipmentsData) {
-        this.equipments.push({Name:m.Name, value:m._id, checked:false})
+        this.equipments.push({name:m.name, value:m.id, checked:false})
       }
     });
   }
@@ -145,16 +158,16 @@ export class TaskComponent implements OnInit, OnChanges {
     // this.property.AreasOverlay[this.property.AreasOverlay.length-1].HarvestDate = dt.year + "-" + dt.month + "-" + dt.day;
 
     let reqTask = {
-      Description: this.form.get('description').value,
-      InitialDate: initDt.year +  "-" + initDt.month + "-" + initDt.day,//this.form.get('initialDate').value,
-      FinalDate: finDt.year +  "-" + finDt.month + "-" + finDt.day, //this.form.get('finalDate').value,
-      Status: this.form.get('status').value,
-      ProjectId: this.project._id,
-      EmployeeId: this.form.get('employee').value,
-      ServiceId: this.form.get('service').value,
-      MaterialId: materialList,
-      EquipmentId: equipmentList,
-      ForgeObjs: this.selectedBIMObjs
+      description: this.form.get('description').value,
+      initialDate: initDt.year +  "-" + initDt.month + "-" + initDt.day,//this.form.get('initialDate').value,
+      finalDate: finDt.year +  "-" + finDt.month + "-" + finDt.day, //this.form.get('finalDate').value,
+      status: this.form.get('status').value,
+      projectId: this.project.id,
+      employeeId: this.form.get('employee').value,
+      serviceId: this.form.get('service').value,
+      materialId: materialList,
+      equipmentId: equipmentList,
+      forgeObjs: this.selectedBIMObjs
     }
 
     console.log("reqTask:", reqTask);
@@ -170,6 +183,15 @@ export class TaskComponent implements OnInit, OnChanges {
       }
 
     });
+  }
+
+  removeTask(task:Task, index) {
+    this.projectsService.removeTasks(task.id).subscribe(data => {
+
+      console.log("Remover tarefa:", data);
+
+      this.tasks.splice(index, 1);
+    })
   }
 
 }

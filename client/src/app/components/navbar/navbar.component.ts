@@ -20,7 +20,7 @@ export class NavbarComponent implements OnInit {
     let obj = JSON.parse(localStorage.getItem('user'));
     console.log(obj);
     if (obj) {
-      this.username = obj.Username;
+      this.username = obj.username;
     }
 
     this.authService.getLoggedInName.subscribe(name => this.username = name);
@@ -30,7 +30,7 @@ export class NavbarComponent implements OnInit {
     let obj = JSON.parse(localStorage.getItem('user'));
     console.log("after:",obj);
     if (obj) {
-      this.username = obj.Username;
+      this.username = obj.username;
     }
   }
 

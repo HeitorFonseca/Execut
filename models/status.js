@@ -7,7 +7,7 @@ mongoose.Promise = global.Promise; // Configure Mongoose Promises
 
 // Status Model Definition
 const statusSchema = new Schema({ 
-    Name: { type: String, required: true},    
+    name: { type: String, required: true},    
 }, { collection: 'stati' });
 
 module.exports = mongoose.model('Stati', statusSchema);

@@ -1,5 +1,7 @@
-import { Component, ViewChild, OnDestroy, ElementRef, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, ViewChild, OnDestroy, ElementRef, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ForgeService } from './../../services/forge.service'
+
+import { Project } from '../../models/project';
 
 declare const Autodesk: any;
 
@@ -11,6 +13,7 @@ declare const Autodesk: any;
 
 export class ForgeViewerComponent implements OnInit, OnDestroy {
   
+  @Input() project: Project;
   @Output() selectedObjects = new EventEmitter();
   @ViewChild('viewerContainer') viewerContainer: any;
   
@@ -82,7 +85,8 @@ export class ForgeViewerComponent implements OnInit, OnDestroy {
   private loadDocument() {
     console.log("load document");
 
-    const urn = 'urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6ZXhlY3V0L2FwYXJ0YW1lbnRvLnJ2dA';
+    // const urn = 'urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6aXNpYTU4NDc4MzI4NDA0YTg4MWQ5ZDMzMzIyMmU5ZjI1NzgvYXBhcnRhbWVudG8ucnZ0';
+    const urn = 'urn:' + this.project.objectKey;
 
     Autodesk.Viewing.Document.load(urn, (doc) => {
       const geometryItems = Autodesk.Viewing.Document.getSubItemsWithProperties(doc.getRootItem(), { type: 'geometry' }, true);

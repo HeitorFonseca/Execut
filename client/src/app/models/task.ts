@@ -1,19 +1,18 @@
 export class Task {
-    Id: string;
-    Name: string;
-    Description: string;
+    id: string;
+    name: string;
+    description: string;
     projectId: number;
-    InitialDate: string;
-    FinalDate: string;
-    Status: string;
-    ProjectId: string;
-    EmployeeId: string;
-    ServiceId: string;
-    MaterialId: string;
-    EquipmentId: string;
-    ForgeObjs: [{
-        DbId: String,
-        ExternalId: String,
-        Name: String
+    initialDate: string;
+    finalDate: string;
+    status: string;
+    employeeId: string;
+    serviceId: string;
+    materialId: string;
+    equipmentId: string;
+    forgeObjs: [{
+        dbId: String,
+        externalId: String,
+        name: String
       }] 
 }

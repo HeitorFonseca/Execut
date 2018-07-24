@@ -6,6 +6,7 @@ const bodyParser = require('body-parser'); // Parse incoming request bodies in a
 var cors = require('cors');
 
 var authRouter = require('./routes/authentication');
+var userRouter = require('./routes/users');
 var projectRouter = require('./routes/projects');
 var statusRouter = require('./routes/stati');
 var oauth = require('./routes/forge/oauthtoken');
@@ -23,6 +24,7 @@ app.use(cors());
 
 app.use('/', express.static(path.join(__dirname, 'dist/mean-angular6')));
 app.use('/api/authentication', authRouter);
+app.use('/api/user', userRouter);
 app.use('/api/project', projectRouter);
 app.use('/api/status', statusRouter)
 app.use('/api/forge', oauth); // redirect oauth API calls

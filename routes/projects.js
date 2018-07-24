@@ -13,16 +13,16 @@ var Task = require('../models/task');
 router.get('/', function (req, res, next) {
     console.log("get all projects here");
     Project.find({})
-        .then(result => res.json(result))
+    .then(result => res.json(result))
         .catch(err => console.log(err))
 });
 
 /* Get all projects */
 router.get('/:id', function (req, res, next) {
     console.log("get property by id");
-    var query = { projectId: req.query.ProjectId };
+    var query = { _id: req.params.id };
     console.log(query);
-    Project.findById(req.query.ProjectId, function (err, project) {
+    Project.findById(req.params.id, function (err, project) {
         if (err) {
             res.json(err);
         }
@@ -44,10 +44,10 @@ router.post('/register', function (req, res, next) {
                 res.json({ success: false, message: 'Não foi possivel salvar o projeto. Erro: ', err }); // Return error if not related to validation
             }
         } else {
-            var query = { _id: req.body.Users[0] };
+            var query = { _id: req.body.users[0] };
             console.log("query:", query, "project:", project);
             // n x n relationship -> update user with project id
-            User.findOneAndUpdate(query, { $push: { "projects": project.ProjectId } }, function (err, user) {
+            User.findOneAndUpdate(query, { $push: { "projects": project.projectId } }, function (err, user) {
                 if (err) {
                     console.log(err);
                     res.json({ success: false, message: 'Não foi possivel atualizar o usuário. Error: ', err }); // Return error if not related to validation              
@@ -63,9 +63,9 @@ router.post('/register', function (req, res, next) {
 
 /* Delete project */
 router.delete('/:id', function (req, res, next) {
-    console.log("delete project by id:", req.query);
+    console.log("delete project by id:", req.params);
 
-    var query = { _id: req.query.ProjectId };
+    var query = { _id: req.params.id };
     Project.findOneAndRemove(query, function (err, post) {
         if (err) return next(err);
         res.json(post);
@@ -92,9 +92,9 @@ router.post('/registerEmployee', function (req, res, next) {
 
 router.get('/:id/employeer', function (req, res, next) {
     //console.log("get all employeer here");  
-    //console.log("query", req.query );  
+    console.log("get employee: query", req.params );
 
-    var query = { ProjectId: req.query.ProjectId };
+    var query = { projectId: req.params.id };
 
     Employee.find(query, function (err, employees) {
         if (err) {
@@ -123,8 +123,8 @@ router.post('/registerMaterial', function (req, res, next) {
 });
 
 router.get('/:id/materials', function (req, res, next) {
-    var query = { ProjectId: req.query.ProjectId };
-
+    
+    var query = { projectId: req.params.id };
     Material.find(query, function (err, materials) {
         if (err) {
             res.json(err);
@@ -168,7 +168,7 @@ router.get('/:id/services', function (req, res, next) {
     //console.log("get all services here");  
     //console.log("query", req.query );  
 
-    var query = { ProjectId: req.query.ProjectId };
+    var query = { projectId: req.params.id };
 
     Service.find(query, function (err, services) {
         if (err) {
@@ -200,7 +200,7 @@ router.get('/:id/equipments', function (req, res, next) {
     //console.log("get all equipments here");  
     //console.log("query", req.query );  
 
-    var query = { ProjectId: req.query.ProjectId };
+    var query = { projectId: req.params.id };
 
     Equipment.find(query, function (err, equipments) {
         if (err) {
@@ -229,5 +229,38 @@ router.post('/registerTask', function (req, res, next) {
         }
     });
 });
+
+router.get('/:id/tasks', function (req, res, next) {
+    //console.log("get all equipments here");  
+    //console.log("query", req.query );  
+
+    var query = { projectId: req.params.id };
+    console.log("get tasks:", query);
+
+    Task.find(query, function (err, tasks) {
+        if (err) {
+            res.json(err);
+        }
+        //console.log(tasks);
+        res.json(tasks);
+    });
+});
+
+router.delete('/task/:taskId', function (req, res, next) {
+    //console.log("get all equipments here");  
+    //console.log("query", req.query );  
+
+    var query = { _id: req.params.taskId };
+    console.log("delete tasks:", query);
+    
+    Task.findOneAndRemove(query, function (err, tasks) {
+        if (err) {
+            res.json({ success: false, message: 'Não foi possivel remover a tarefa!' });
+        }
+        //console.log(tasks);
+        res.json({ success: true, message: 'Tarefa removida!'});
+    });
+});
+
 
 module.exports = router;

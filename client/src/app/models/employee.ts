@@ -1,6 +1,6 @@
 export class Employee {
-    Id: string;
-    Name: string;
-    Role: string;
+    id: string;
+    name: string;
+    role: string;
     projectId: number;
 }

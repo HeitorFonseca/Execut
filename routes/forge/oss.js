@@ -130,7 +130,7 @@ router.post('/oss/objects', upload.single('fileToUpload'), function (req, res) {
     console.log("post objects", req.body);
     oauth.getTokenInternal().then(function (credentials) {
         console.log("post objects2", req.body);
-        console.log("post objects2", req.file);
+        //console.log("post objects2", req.file);
         var bucketKey = req.body.bucketKey;
         var fs = require('fs');
         fs.readFile(req.file.path, function (err, filecontent) {

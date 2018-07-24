@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { Observable, BehaviorSubject } from 'rxjs';
@@ -19,7 +19,7 @@ export class ProjectsService {
   domain = "http://localhost:3000/api/";
 
   constructor(private http: HttpClient, 
-    private router: Router, ) { }
+    private router: Router) { }
 
   // Function to get projects
   getProjects() {
@@ -33,18 +33,12 @@ export class ProjectsService {
 
   removeProject(id) {
     console.log("delete Project: ", id)
-    let params = new HttpParams();
-    params = params.append('ProjectId', id);
-
-    return this.http.delete(this.domain + 'project/id', {params: params}).pipe(map(res => res));
+    return this.http.delete(this.domain + 'project/' + id).pipe(map(res => res));
   }
 
   // Function to get project by name
   getProjectById(id): Observable<Project> {
-    let params = new HttpParams();
-    params = params.append('ProjectId', id);
-
-    return this.http.get<Project>(this.domain + 'project/id', {params: params}).pipe(map(res => res));
+    return this.http.get<Project>(this.domain + 'project/' + id).pipe(map(res => res));
   }
 
   /* Employee */
@@ -52,11 +46,8 @@ export class ProjectsService {
     return this.http.post<any>(this.domain + 'project/registerEmployee', employee).pipe(map(res => res));
   }
 
-  getEmployeesByProject(id): Observable<any> {
-    let params = new HttpParams();
-    params = params.append('ProjectId', id);
-
-    return this.http.get<any>(this.domain + 'project/:id/employeer', {params: params}).pipe(map(res => res));
+  getEmployeesByProject(projectId): Observable<any> {
+    return this.http.get<any>(this.domain + 'project/'+ projectId + '/employeer').pipe(map(res => res));
   }
 
   /* Material */
@@ -64,11 +55,8 @@ export class ProjectsService {
     return this.http.post<any>(this.domain + 'project/registerMaterial', material).pipe(map(res => res));
   }
 
-  getMaterialsByProject(id): Observable<any> {
-    let params = new HttpParams();
-    params = params.append('ProjectId', id);
-
-    return this.http.get<any>(this.domain + 'project/:id/materials', {params: params}).pipe(map(res => res));
+  getMaterialsByProject(projectId): Observable<any> {
+    return this.http.get<any>(this.domain + 'project/' + projectId + '/materials').pipe(map(res => res));
   }
 
   editMaterial(material) {
@@ -76,12 +64,9 @@ export class ProjectsService {
     return this.http.put<any>(this.domain + 'project/:id/materials/:id', material).pipe(map(res => res));
   }
 
-  removeMaterial(material) {
-    console.log("remove Material", material);
-    let params = new HttpParams();
-    params = params.append('name', name);
-
-    return this.http.delete(this.domain + 'project/:id/materials/:id', {params: params}).pipe(map(res => res));
+  removeMaterial(materialId) {
+    console.log("remove Material", materialId);
+    return this.http.delete(this.domain + 'project/materials/' + materialId).pipe(map(res => res));
   }
 
   /* Service */
@@ -89,11 +74,8 @@ export class ProjectsService {
     return this.http.post<any>(this.domain + 'project/registerService', service).pipe(map(res => res));
   }
 
-  getServicesByProject(id): Observable<any> {
-    let params = new HttpParams();
-    params = params.append('ProjectId', id);
-
-    return this.http.get<any>(this.domain + 'project/:id/services', {params: params}).pipe(map(res => res));
+  getServicesByProject(projectId): Observable<any> {
+    return this.http.get<any>(this.domain + 'project/' + projectId +'/services').pipe(map(res => res));
   }
 
   /* Equipment */
@@ -101,15 +83,11 @@ export class ProjectsService {
     return this.http.post<any>(this.domain + 'project/registerEquipment', equipment).pipe(map(res => res));
   }
 
-  getEquipmentsByProject(id): Observable<any> {
-    let params = new HttpParams();
-    params = params.append('ProjectId', id);
-
-    return this.http.get<any>(this.domain + 'project/:id/equipments', {params: params}).pipe(map(res => res));
+  getEquipmentsByProject(projectId): Observable<any> {
+    return this.http.get<any>(this.domain +  'project/' + projectId +'/equipments').pipe(map(res => res));
   }
 
   /* Get all status */
-
   getTaskStatus(): Observable<any> {
     return this.http.get<any>(this.domain + 'status/').pipe(map(res => res));
   }
@@ -119,7 +97,16 @@ export class ProjectsService {
     return this.http.post<any>(this.domain + 'project/registerTask', task).pipe(map(res => res));
   }
 
+  getTasks(projectId): Observable<any> {
+    return this.http.get<any>(this.domain +  'project/' + projectId +'/tasks').pipe(map(res => res));
+  }
+
+  removeTasks(taskId): Observable<any> {
+    return this.http.delete(this.domain + 'project/task/' + taskId).pipe(map(res => res));
+  }
+
   getInternProject(project) {
+    
     this.sharedProject.next(project);
   }
 

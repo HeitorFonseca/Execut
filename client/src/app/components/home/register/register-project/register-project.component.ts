@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
-import { environment } from '../../../../environments/environment';
+import { environment } from '../../../../../environments/environment';
 import { UUID } from 'angular2-uuid';
 
-import { ProjectsService } from '../../../services/projects.service'
-import { ForgeService } from './../../../services/forge.service'
+import { ProjectsService } from '../../../../services/projects.service'
+import { ForgeService } from './../../../../services/forge.service'
 
-import { Project } from '../../../models/project';
+import { Project } from '../../../../models/project';
 
 
 @Component({
@@ -71,7 +71,7 @@ export class RegisterProjectComponent implements OnInit {
 
           } else {
 
-
+            
             let req = {
               bucketKey: "execut",
               objectName: btoa(dataForge.object.body.objectId).replace('=', '')
@@ -84,12 +84,12 @@ export class RegisterProjectComponent implements OnInit {
               console.log("translate: ", data);
 
               let reqProject = {
-                Name: this.form.get('name').value,
-                Address: this.form.get('address').value,
-                Bimmodel: this.form.get('BIMModel').value,
-                ObjectKey: dataForge.object.body.objectKey,
-                BucketName: bucketName,
-                Users: [JSON.parse(localStorage.getItem('user')).Id]
+                name: this.form.get('name').value,
+                address: this.form.get('address').value,
+                bimModel: dataForge.object.body.objectKey,
+                objectKey: btoa(dataForge.object.body.objectId),
+                bucketName: bucketName,
+                users: [JSON.parse(localStorage.getItem('user')).Id]
               }
 
               this.projectsService.registerProject(reqProject).subscribe(dataProj => {

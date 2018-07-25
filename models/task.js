@@ -51,47 +51,50 @@ const taskSchema = new Schema({
 // });
 
 
-taskSchema.set('toJSON', {
-    transform: function (doc, ret, options) {
+// taskSchema.set('toJSON', {
+//     transform: function (doc, ret, options) {
 
-        Employee.findById(ret.employeeId, function (err, employee) {
-            if (err) res.json("");
+//         var retJson;
+//         Employee.findById(ret.employeeId, function (err, employee) {
+//             if (err) res.json("");
             
-            Service.findById(ret.serviceId, function(err, service) {
-                if (err) res.json("");
+//             Service.findById(ret.serviceId, function(err, service) {
+//                 if (err) res.json("");
     
-                Material.find({'_id':{$in:ret.materialId}}, function(err, materials) {
-                    if (err) res.json("");
+//                 Material.find({'_id':{$in:ret.materialId}}, function(err, materials) {
+//                     if (err) res.json("");
     
-                    Equipment.find({'_id':{$in:ret.equipmentId}}, function(err, equipments) {
-                        if (err) res.json("");
+//                     Equipment.find({'_id':{$in:ret.equipmentId}}, function(err, equipments) {
+//                         if (err) res.json("");
     
-                        // console.log("employee:", employee);
-                        // console.log("service:", service);
-                        // console.log("materials:", materials);
-                        // console.log("equipments:", equipments);
+//                         // console.log("employee:", employee);
+//                         // console.log("service:", service);
+//                         // console.log("materials:", materials);
+//                         // console.log("equipments:", equipments);
 
-                        var retJson = {
-                            id: ret._id,
-                            description: ret.description,
-                            initialDate: ret.initialDate,
-                            finalDate: ret.finalDate,
-                            status: ret.status,
-                            employee: employee.name,
-                            material: materials,
-                            equipment: equipments,
-                            service: service,
-                            forgeObjs: ret.forgeObjs
-                        };
+//                         retJson = {
+//                             id: ret._id,
+//                             description: ret.description,
+//                             initialDate: ret.initialDate,
+//                             finalDate: ret.finalDate,
+//                             status: ret.status,
+//                             employee: employee.name,
+//                             material: "materials.name",
+//                             equipment: "equipments.name",
+//                             service: service.name,
+//                             forgeObjs: ret.forgeObjs
+//                         };
 
-                        console.log("retJson:", retJson);
-                        return retJson;
-                    });
-                });
-            });            
-        });  
-    }
-});
+//                         console.log("retJson:", retJson);
+//                         return retJson;
+//                     });
+//                 });
+//             });            
+//         });  
+
+//         return retJson;
+//     }
+// });
 
 
 

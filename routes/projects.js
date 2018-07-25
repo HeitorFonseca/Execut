@@ -237,13 +237,114 @@ router.get('/:id/tasks', function (req, res, next) {
     var query = { projectId: req.params.id };
     console.log("get tasks:", query);
 
-    Task.find(query, function (err, tasks) {
-        if (err) {
-            res.json(err);
-        }
-        //console.log(tasks);
-        res.json(tasks);
+    Task.aggregate([
+
+        { $match: {status: "1"}},
+        { $lookup: {
+            localField: "employeeId",
+            from : "employees",
+            foreignField: "_id",
+            as: "employee"
+        }},
+        { $unwind: "$employee" },
+        //service
+        { $lookup: {
+            localField: "serviceId",
+            from : "services",
+            foreignField: "_id",
+            as: "service"
+        }},
+        { $unwind: "$service" },
+        //material
+        { $lookup: {
+            localField: "materialId",
+            from : "materials",
+            foreignField: "_id",
+            as: "materials"
+        }},
+        // equioment
+        { $lookup: {
+            localField: "equipmentId",
+            from : "equipment",
+            foreignField: "_id",
+            as: "equipments"
+        }},
+        // { $unwind: "$equipments" },
+
+    ], function(err, gettt) {
+            if (err) {
+                console.log("error");
+                res.json({ success: false, message: 'Não foi possivel retornar a tarefa. Erro: ', err });
+            }
+            console.log("tarefa:", gettt);
+            res.json( gettt);
     });
+
+    // Task.find(query, function (err, tasks) {
+    //     if (err) {
+    //         res.json(err);
+    //     }
+    
+
+
+
+    //     var resJson = [];
+
+    //     for( i = 0; i < tasks.length; i++) {
+
+    //         console.log("task[i]:", tasks[i]);
+            
+    //         var tasId = tasks[i]._id;
+    //         var tasDescId = tasks[i].description;
+    //         var tasInDtId = tasks[i].initialDate;
+    //         var tasfnDtId = tasks[i].finalDate;
+    //         var status = tasks[i].status;
+    //         var empId = tasks[i].employeeId;
+    //         var serId = tasks[i].serviceId;
+    //         var matId = tasks[i].materialId;
+    //         var equId = tasks[i].equipmentId;
+    //         var forgObs = tasks[i].forgeObjs;
+
+            
+    //         Employee.findById({'_id':{$in: matId}}, function (err, employee) {
+    //             if (err) res.json("");
+    //             console.log("achou employee");
+    //             Service.findById(serId, function(err, service) {
+    //                 if (err) res.json("");
+    //                 console.log("achou service");
+    //                 Material.find({'_id':{$in: matId}}, function(err, materials) {
+    //                     if (err) res.json("");
+    //                     console.log("achou material");
+
+    //                     Equipment.find({'_id':{$in: equId}}, function(err, equipments) {
+    //                         if (err) res.json("");
+    //                         console.log("achou equipamento");
+
+    //                         retJson = {
+    //                             id: tasId,
+    //                             description: tasDescId,
+    //                             initialDate: tasInDtId,
+    //                             finalDate: tasfnDtId,
+    //                             status: status,
+    //                             employee: employee,
+    //                             material: materials,
+    //                             equipment: equipments,
+    //                             service: service.name,
+    //                             forgeObjs: forgObs
+    //                         };
+                            
+    //                         resJson.push(retJson);
+    //                         console.log("loop:", resJson);
+    //                     });
+    //                 });
+    //             });            
+    //         });        
+    //     }
+
+    
+    //     console.log("retornou ", tasks);
+    //     res.json(tasks);
+    // });
 });
 
 router.delete('/task/:taskId', function (req, res, next) {

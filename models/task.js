@@ -27,25 +27,27 @@ const taskSchema = new Schema({
 });
 
 // taskSchema.set('toJSON', {
+//     virtuals: true,
+//     versionKey: false,
+//     transform: function (doc, ret) { delete ret._id }
+// });
+
+// taskSchema.set('toJSON', {
 //     transform: function (doc, ret, options) {
-
-//         const employee = await getEmployeer(ret.employeeId);
-//         const material = await getMaterial(ret.materialId);
-//         const equipment = await getEquipment(ret.equipmentId);
-//         const service = await getService(ret.serviceId);
-
+//         console.log("convert to json: ", ret.employee, ret.material);
 //         var retJson = {
 //             id: ret._id,
 //             description: ret.description,
 //             initialDate: ret.initialDate,
 //             finalDate: ret.finalDate,
 //             status: ret.status,
-//             employee: employee,
-//             material: material,
+//             employee: ret.employee,
+//             material: ret.material,
 //             equipment: equipment,
 //             service: service,
 //             forgeObjs: ret.forgeObjs
 //         };
+
 //         return retJson;
 //     }
 // });
@@ -57,16 +59,16 @@ const taskSchema = new Schema({
 //         var retJson;
 //         Employee.findById(ret.employeeId, function (err, employee) {
 //             if (err) res.json("");
-            
+
 //             Service.findById(ret.serviceId, function(err, service) {
 //                 if (err) res.json("");
-    
+
 //                 Material.find({'_id':{$in:ret.materialId}}, function(err, materials) {
 //                     if (err) res.json("");
-    
+
 //                     Equipment.find({'_id':{$in:ret.equipmentId}}, function(err, equipments) {
 //                         if (err) res.json("");
-    
+
 //                         // console.log("employee:", employee);
 //                         // console.log("service:", service);
 //                         // console.log("materials:", materials);
@@ -101,14 +103,14 @@ const taskSchema = new Schema({
 function getEmployeer(employeeId) {
     Employee.findById(employeeId, function (err, employee) {
         if (err) res.json("");
-        
-        Service.findById(serviceId, function(err, service) {
+
+        Service.findById(serviceId, function (err, service) {
             if (err) res.json("");
 
-            Material.find({'_id':{$in:materials}}, function(err, materials) {
+            Material.find({ '_id': { $in: materials } }, function (err, materials) {
                 if (err) res.json("");
 
-                Equipment.find({'_id':{$in:equipments}}, function(err, equipments) {
+                Equipment.find({ '_id': { $in: equipments } }, function (err, equipments) {
                     if (err) res.json("");
 
                     var retJson = {
@@ -127,23 +129,23 @@ function getEmployeer(employeeId) {
                 });
             });
         });
-        
-    });  
+
+    });
 }
 
 function getService(serviceId) {
-    console.log("2");    
-    return Service.findById(serviceId).exec();    
+    console.log("2");
+    return Service.findById(serviceId).exec();
 }
 
 function getMaterial(materials) {
-    console.log("3");    
-    return Material.find({'_id':{$in:materials}}).exec(); 
+    console.log("3");
+    return Material.find({ '_id': { $in: materials } }).exec();
 }
 
 function getEquipment(equipments) {
-    console.log("4");    
-    return Equipment.find({'_id':{$in:equipments}}).exec();    
+    console.log("4");
+    return Equipment.find({ '_id': { $in: equipments } }).exec();
 }
 
 

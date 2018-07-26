@@ -19,6 +19,8 @@ export class TaskComponent implements OnInit, OnChanges {
 
   @Input() project: Project;
 
+  objectsIds: Array<any>;
+
   form:FormGroup;
   employees:Array<Employee>;
   services:Array<Service>;
@@ -186,12 +188,29 @@ export class TaskComponent implements OnInit, OnChanges {
   }
 
   removeTask(task:Task, index) {
+    console.log(task, index);
     this.projectsService.removeTasks(task.id).subscribe(data => {
 
       console.log("Remover tarefa:", data);
 
-      this.tasks.splice(index, 1);
+      if(!data.success){
+
+      }
+      else {
+        this.tasks.splice(index, 1);
+      }
     })
+  }
+
+  editTask(task:Task) {
+    
+    let objsId = [];
+
+    for( let objId of task.forgeObjs) {
+      objsId.push(+objId.dbId);
+    }
+
+    this.objectsIds = objsId;
   }
 
 }

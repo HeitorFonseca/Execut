@@ -9,18 +9,49 @@
     </div>
   </div>
 
-
-  <div class="list-group" *ngIf="tasks">
-      <div class="btn-group" role="group" *ngFor="let task of tasks; let i = index">
-        <button type="button" (click)="editTask(task)" class="list-group-item list-group-item-action col-lg-3">{{task.description}}</button>
-        <button type="button" (click)="removeTask(task, i)" class="btn btn-secondary">x</button>
+  <!-- <div class="container">
+    <div class="row">
+      <div class="col-sm">
+        One of three columns
+      </div>
+      <div class="col-sm">
+        One of three columns
+      </div>
+      <div class="col-sm">
+        One of three columns
       </div>
     </div>
-  
-  
-    <br>
-    <br>
-  
+  </div> -->
+
+  <div class="list-group" *ngIf="tasks">
+    <div class="btn-group" role="group" *ngFor="let task of tasks; let i = index">
+
+
+      <div class="container">
+        <div class="row">
+          <div class="col-lg">
+              <button type="button" (click)="editTask(task)" class="list-group-item list-group-item-action">{{task.description}}</button>
+          </div>
+          <div class="col-lg">
+              <button type="button" class="list-group-item list-group-item-action">{{task.employee.name}}</button>
+          </div>
+          <div class="col-lg">
+              <button type="button" class="list-group-item list-group-item-action">{{task.service.name}}</button>
+          </div>
+        </div>
+      </div>
+
+      <button type="button" (click)="removeTask(task, i)" class="btn btn-secondary">x</button>
+
+      <!-- <button type="button" (click)="editTask(task)" class="list-group-item list-group-item-action col-lg-3">{{task.description}}</button>
+      <button type="button" (click)="removeTask(task, i)" class="btn btn-secondary">x</button> -->
+    </div>
+  </div>
+
+
+  <br>
+  <br>
+
 
   <!-- Task Form -->
   <form [formGroup]="form" (submit)="onRegisterSubmit()">
@@ -29,7 +60,8 @@
     <div class="form-group">
       <div [ngClass]="{'has-error': form.controls.description.errors && form.controls.description.dirty, 'has-success': form.controls.description.valid && form.controls.description.dirty }">
         <label for="description" class="col-sm-2 col-form-label">Descrição da tarefa</label>
-        <input class="form-control input-underline" type="text" placeholder="Descrição da tarefa" name="description" formControlName="description"  id="description" />
+        <input class="form-control input-underline" type="text" placeholder="Descrição da tarefa" name="description" formControlName="description"
+          id="description" />
         <!-- Validation -->
         <ul class="help-block">
           <li *ngIf="form.controls.description.errors?.required && form.controls.description.dirty">Este campo é obrigatório.</li>
@@ -40,28 +72,29 @@
 
     <!-- Initial Data Field -->
     <div class="form-group">
-        <label> Data Inicial </label>
-        <div [ngClass]="{'has-error': form.controls.initialDate.errors && form.controls.initialDate.dirty, 'has-success': form.controls.initialDate.valid && form.controls.initialDate.dirty }">
-            <div class="input-group datepicker-input">
-                <input class="form-control col-md-2" name="dp1" ngbDatepicker #d="ngbDatepicker" placeholder="yyyy-mm-dd" name="initialDate" formControlName="initialDate"/>
-                <button class="input-group-addon" (click)="d.toggle()" type="button">
-                    <span class="fa fa-calendar"></span>
-                </button>
-            </div>
+      <label> Data Inicial </label>
+      <div [ngClass]="{'has-error': form.controls.initialDate.errors && form.controls.initialDate.dirty, 'has-success': form.controls.initialDate.valid && form.controls.initialDate.dirty }">
+        <div class="input-group datepicker-input">
+          <input class="form-control col-md-2" name="dp1" ngbDatepicker #d="ngbDatepicker" placeholder="yyyy-mm-dd" name="initialDate"
+            formControlName="initialDate" />
+          <button class="input-group-addon" (click)="d.toggle()" type="button">
+            <span class="fa fa-calendar"></span>
+          </button>
         </div>
+      </div>
     </div>
 
     <div class="form-group">
-        <label> Data Final </label>
-        <div [ngClass]="{'has-error': form.controls.finalDate.errors && form.controls.finalDate.dirty, 'has-success': form.controls.finalDate.valid && form.controls.finalDate.dirty }">
-            <div class="input-group datepicker-input">
-                <input class="form-control col-md-2" name="dp2" ngbDatepicker #d2="ngbDatepicker" placeholder="yyyy-mm-dd" name="finalDate" formControlName="finalDate"
-                />
-                <button class="input-group-addon" (click)="d2.toggle()" type="button">
-                    <span class="fa fa-calendar"></span>
-                </button>
-            </div>
+      <label> Data Final </label>
+      <div [ngClass]="{'has-error': form.controls.finalDate.errors && form.controls.finalDate.dirty, 'has-success': form.controls.finalDate.valid && form.controls.finalDate.dirty }">
+        <div class="input-group datepicker-input">
+          <input class="form-control col-md-2" name="dp2" ngbDatepicker #d2="ngbDatepicker" placeholder="yyyy-mm-dd" name="finalDate"
+            formControlName="finalDate" />
+          <button class="input-group-addon" (click)="d2.toggle()" type="button">
+            <span class="fa fa-calendar"></span>
+          </button>
         </div>
+      </div>
     </div>
 
     <div class="form-group">
@@ -98,16 +131,15 @@
       <label for="equipments">Equipamentos:</label>
       <div *ngFor="let option of equipments">
         <label>
-          <input type="checkbox" name="equipments" value="{{option.id}}" (change)="onClicked(equipments, option, $event)"
-          /> {{option.name}}
+          <input type="checkbox" name="equipments" value="{{option.id}}" (change)="onClicked(equipments, option, $event)" /> {{option.name}}
         </label>
-      </div>    
+      </div>
     </div>
   </form>
 </div>
 
 <div class="ml-2" *ngIf="project">
-    <app-forge-viewer [project]="project" (selectedObjects)="receiverSelectedObjects($event)"></app-forge-viewer>
+  <app-forge-viewer [project]="project" [objectsIds]="objectsIds" (selectedObjects)="receiverSelectedObjects($event)"></app-forge-viewer>
 </div>
 
 <br>

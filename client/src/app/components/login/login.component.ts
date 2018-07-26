@@ -79,10 +79,12 @@ export class LoginComponent implements OnInit {
 
         setTimeout(() => {
           this.router.navigate(['']);
-        }, 1500);
+        }, 1000);
       }
     });
   }
+
+  onRegisterUser
 
   setUserPermissionsAndRole(data: any) {
     var permissions = this.getPermissions();
@@ -117,10 +119,5 @@ export class LoginComponent implements OnInit {
   getPermissions() {
     return ["createProject", "removeProject", "editProject", "viewProject"]
   }
-
-  forgeAuthentication() {
-
-  }
-
 
 }

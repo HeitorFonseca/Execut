@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnDestroy, ElementRef, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, ViewChild, OnDestroy, ElementRef, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges, ChangeDetectionStrategy, } from '@angular/core';
 import { ForgeService } from './../../services/forge.service'
 
 import { Project } from '../../models/project';
@@ -11,9 +11,10 @@ declare const Autodesk: any;
   styleUrls: ['./forge-viewer.component.css']
 })
 
-export class ForgeViewerComponent implements OnInit, OnDestroy {
+export class ForgeViewerComponent implements OnInit, OnDestroy, OnChanges {
   
   @Input() project: Project;
+  @Input() objectsIds: Project;
   @Output() selectedObjects = new EventEmitter();
   @ViewChild('viewerContainer') viewerContainer: any;
   
@@ -33,6 +34,19 @@ export class ForgeViewerComponent implements OnInit, OnDestroy {
     console.log("ngafterinit");
 
     this.launchViewer();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    console.log("changes:", changes);
+    if (changes['objectsIds'].currentValue) {
+      let varChange = changes['objectsIds'];
+      var objectsIds = varChange.currentValue;
+      if (objectsIds) {
+        console.log("chamou isolou");
+
+        this.isolateObject(objectsIds);
+      }
+    }
   }
 
   ngOnDestroy() {
@@ -96,10 +110,7 @@ export class ForgeViewerComponent implements OnInit, OnDestroy {
       }
 
       this.viewer.addEventListener(Autodesk.Viewing.GEOMETRY_LOADED_EVENT, this.geometryLoaded);
-      this.viewer.addEventListener(Autodesk.Viewing.SELECTION_CHANGED_EVENT, (event) => this.selectionChanged(event));
-      
-      //this.viewer.addEventListener(Autodesk.Viewing.TOOLBAR_CREATED_EVENT, (event) => this.onToolBarCreatedBinded(event));
-      
+      this.viewer.addEventListener(Autodesk.Viewing.SELECTION_CHANGED_EVENT, (event) => this.selectionChanged(event));      
 
       this.viewer.load(doc.getViewablePath(geometryItems[0]));
       console.log("viewer:", this.viewer)
@@ -191,8 +202,10 @@ export class ForgeViewerComponent implements OnInit, OnDestroy {
     return new Promise((resolve, reject )=> {
       _this.viewer.getProperties(dbId, function (props) {
         // output on console, for fun...
-        console.log("colocou no propObjects:",props);
+        console.log("colocou no propObjects e isolou:",props, dbId);
         
+        _this.viewer.isolate(dbId);
+
         let obj = {
           dbId: props.dbId,
           name: props.name,
@@ -202,7 +215,11 @@ export class ForgeViewerComponent implements OnInit, OnDestroy {
         resolve(obj);
        
       })
-    })
-   
+    })   
+  }
+
+  isolateObject(dbIds) {
+    console.log("isolou", dbIds);
+    this.viewer.isolate(dbIds);
   }
 }

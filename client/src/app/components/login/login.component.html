@@ -37,7 +37,9 @@
     </div>
 
     <!-- Submit Button -->
-    <input [disabled]="!form.valid || processing" class="btn btn-primary" type="submit" value="Login" />
+    <input [disabled]="!form.valid || processing" class="btn btn-primary" type="submit" value="Entrar" />
+    <input class="btn btn-primary ml-2" type="button" (click)="onRegisterUser()" value="Registrar" />
+
   </form>
 
 </div>

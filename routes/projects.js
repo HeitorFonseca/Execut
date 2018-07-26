@@ -262,89 +262,28 @@ router.get('/:id/tasks', function (req, res, next) {
             foreignField: "_id",
             as: "materials"
         }},
-        // equioment
+        // equipment
         { $lookup: {
             localField: "equipmentId",
             from : "equipment",
             foreignField: "_id",
             as: "equipments"
         }},
-        // { $unwind: "$equipments" },
+        { $addFields: { id: "$_id" }},
+        { $project: {_id: 0, employeeId:0, materialId:0, equipmentId:0, serviceId:0  }
+        }
 
-    ], function(err, gettt) {
-            if (err) {
-                console.log("error");
-                res.json({ success: false, message: 'Não foi possivel retornar a tarefa. Erro: ', err });
-            }
-            console.log("tarefa:", gettt);
-            res.json( gettt);
+    ], function(err, tasks) {
+        if (err) {
+            console.log("error", err);
+            res.json({ success: false, message: 'Não foi possivel retornar a tarefa. Erro: ', err });
+        }   
+        else {
+            console.log("tarefa:", tasks);
+            res.json(tasks);
+        }
+        
     });
-
-    // Task.find(query, function (err, tasks) {
-    //     if (err) {
-    //         res.json(err);
-    //     }
-    
-
-
-
-    //     var resJson = [];
-
-    //     for( i = 0; i < tasks.length; i++) {
-
-    //         console.log("task[i]:", tasks[i]);
-            
-    //         var tasId = tasks[i]._id;
-    //         var tasDescId = tasks[i].description;
-    //         var tasInDtId = tasks[i].initialDate;
-    //         var tasfnDtId = tasks[i].finalDate;
-    //         var status = tasks[i].status;
-    //         var empId = tasks[i].employeeId;
-    //         var serId = tasks[i].serviceId;
-    //         var matId = tasks[i].materialId;
-    //         var equId = tasks[i].equipmentId;
-    //         var forgObs = tasks[i].forgeObjs;
-
-            
-    //         Employee.findById({'_id':{$in: matId}}, function (err, employee) {
-    //             if (err) res.json("");
-    //             console.log("achou employee");
-    //             Service.findById(serId, function(err, service) {
-    //                 if (err) res.json("");
-    //                 console.log("achou service");
-    //                 Material.find({'_id':{$in: matId}}, function(err, materials) {
-    //                     if (err) res.json("");
-    //                     console.log("achou material");
-
-    //                     Equipment.find({'_id':{$in: equId}}, function(err, equipments) {
-    //                         if (err) res.json("");
-    //                         console.log("achou equipamento");
-
-    //                         retJson = {
-    //                             id: tasId,
-    //                             description: tasDescId,
-    //                             initialDate: tasInDtId,
-    //                             finalDate: tasfnDtId,
-    //                             status: status,
-    //                             employee: employee,
-    //                             material: materials,
-    //                             equipment: equipments,
-    //                             service: service.name,
-    //                             forgeObjs: forgObs
-    //                         };
-                            
-    //                         resJson.push(retJson);
-    //                         console.log("loop:", resJson);
-    //                     });
-    //                 });
-    //             });            
-    //         });        
-    //     }
-
-    
-    //     console.log("retornou ", tasks);
-    //     res.json(tasks);
-    // });
 });
 
 router.delete('/task/:taskId', function (req, res, next) {
@@ -358,8 +297,10 @@ router.delete('/task/:taskId', function (req, res, next) {
         if (err) {
             res.json({ success: false, message: 'Não foi possivel remover a tarefa!' });
         }
+        else {
         //console.log(tasks);
         res.json({ success: true, message: 'Tarefa removida!'});
+        }
     });
 });
 

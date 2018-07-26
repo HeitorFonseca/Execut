@@ -13,6 +13,8 @@ var oauth = require('./routes/forge/oauthtoken');
 var oss = require('./routes/forge/oss');
 var modelderivative = require('./routes/forge/modelderivative');
 
+const Schema = mongoose.Schema; // Import Schema from Mongoose
+
 var app = express();
 
 app.use(express.json());
@@ -46,7 +48,6 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.send(err.status);
 });
-
 
 mongoose.connect('mongodb://localhost/Execut', { promiseLibrary: require('bluebird') })
   .then(() =>  console.log('connection successful'))

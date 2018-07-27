@@ -53,4 +53,24 @@
     <input [disabled]="!form.valid || processing" class="btn btn-primary" type="submit" value="Cadastrar" />
   </form>
 
+
+   <!-- Project Form -->
+   <form [formGroup]="formFile" (submit)="onRegisterSubmit()">
+  
+      <!-- Endereço Field  -->
+      <div class="form-group">
+        <div [ngClass]="{'has-error': form.controls.BIMModel.errors && form.controls.BIMModel.dirty, 'has-success': form.controls.BIMModel.valid && form.controls.BIMModel.dirty }">
+          <input class="form-control-file input-underline input-lg" type="file" (change)="fileChange($event)" placeholder="Importe modelo BIM" name="BIMModel" formControlName="BIMModel"
+          />
+         
+          <ul class="help-block">
+            <li *ngIf="form.controls.BIMModel.errors?.required && form.controls.BIMModel.dirty">Este campo é obrigatório.</li>
+          </ul>
+        </div>
+      </div>
+  
+      <!-- Submit Button -->
+      <input [disabled]="!form.valid || processing" class="btn btn-primary" type="submit" value="Cadastrar" />
+    </form>
+
 </div>

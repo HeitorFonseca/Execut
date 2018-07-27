@@ -213,4 +213,8 @@ export class TaskComponent implements OnInit, OnChanges {
     this.objectsIds = objsId;
   }
 
+  onRegisterSubmit(){
+    
+  }
+
 }

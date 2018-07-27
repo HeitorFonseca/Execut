@@ -23,11 +23,14 @@ export class ForgeService {
 
   requestOptions:any;
 
+  domain = "http://localhost:3000/api/";
+
   constructor(private http: HttpClient, 
               private router: Router) { }                
 
+              
   getAccessToken() {
-    return this.http.get<any>(environment.domain + "forge/oauth/token").pipe(map(res => res));
+    return this.http.get<any>(this.domain  + "forge/oauth/token").pipe(map(res => res));
   }
 
   uploadFile(file: File, bucketKey) {
@@ -40,7 +43,7 @@ export class ForgeService {
     fd.append('fileToUpload', file, file.name);
     fd.append('bucketKey', bucketKey);
 
-    return this.http.post<any>(environment.domain + "forge/oss/objects", fd, {headers: headers} ).pipe(map(res => res));
+    return this.http.post<any>(this.domain  + "forge/oss/objects", fd, {headers: headers} ).pipe(map(res => res));
   }
 
   createBucket(bucket) {
@@ -48,7 +51,7 @@ export class ForgeService {
     const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
 
-    return this.http.post<any>(environment.domain + "forge/oss/buckets", bucket, {headers: headers} ).pipe(map(res => res));
+    return this.http.post<any>(this.domain + "forge/oss/buckets", bucket, {headers: headers} ).pipe(map(res => res));
   }
 
   getBuckets(id) {
@@ -59,7 +62,7 @@ export class ForgeService {
     let params = new HttpParams();
     params = params.append('id', id);
 
-    return this.http.get<any>(environment.domain + "forge/oss/buckets", {params:params} ).pipe(map(res => res));
+    return this.http.get<any>(this.domain  + "forge/oss/buckets", {params:params} ).pipe(map(res => res));
   }
 
   deleteBucket(id) {
@@ -70,7 +73,7 @@ export class ForgeService {
     let params = new HttpParams();
     params = params.append('bucketKey', id);
 
-    return this.http.delete<any>(environment.domain + "forge/oss/buckets/:bucketKey", {params:params} ).pipe(map(res => res));
+    return this.http.delete<any>(this.domain + "forge/oss/buckets/:bucketKey", {params:params} ).pipe(map(res => res));
   }
 
   translate(req) {
@@ -79,7 +82,7 @@ export class ForgeService {
 
     let dt = JSON.stringify({ 'bucketKey': "execut", 'objectName': "apartamento.rvt" })
 
-    return this.http.post<any>(environment.domain + "forge/modelderivative/jobs", req, {headers: headers} ).pipe(map(res => res));
+    return this.http.post<any>(this.domain  + "forge/modelderivative/jobs", req, {headers: headers} ).pipe(map(res => res));
   }
 
   loadToken() {

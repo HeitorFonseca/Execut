@@ -32,6 +32,8 @@ import { ForgeViewerComponent } from './components/forge-viewer/forge-viewer.com
 import { TokenInterceptor } from './services/token-interceptor';
 import { ProfileComponent } from './components/home/profile/profile.component'
 import { Profile } from 'selenium-webdriver/firefox';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 
 export function tokenGetter() {
@@ -101,6 +103,7 @@ export function tokenGetter() {
     ]),
     NgbModule.forRoot(),
     NgxPermissionsModule.forRoot(),
+    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
   ],
   providers: [
     AuthService,

@@ -23,15 +23,18 @@ export class RegisterEmployeeComponent implements OnInit {
   employees: Array<Employee>;
 
   constructor(private formBuilder: FormBuilder,
-              private projectsService: ProjectsService) {
+    private projectsService: ProjectsService) {
     this.createForm();
   }
 
   ngOnInit() {
-    this.projectsService.getEmployeesByProject(this.project.id).subscribe( data => {
-      console.log("employees:", data);
-      this.employees = data as Array<Employee>;
-    })
+    if (this.project) {
+      this.projectsService.getEmployeesByProject(this.project.id).subscribe(data => {
+        console.log("employees:", data);
+        this.employees = data as Array<Employee>;
+      });
+    }
+    
   }
 
 
@@ -73,7 +76,7 @@ export class RegisterEmployeeComponent implements OnInit {
     console.log(reqEmployee, " ", this.project);
 
     this.projectsService.registerProjectEmployee(reqEmployee).subscribe(data => {
-      
+
       console.log("register employee:", data);
       if (!data.success) {
         this.messageClass = 'alert alert-danger';
@@ -93,14 +96,13 @@ export class RegisterEmployeeComponent implements OnInit {
 
   }
 
-  getRoles() 
-  {
+  getRoles() {
     var roles = new Array<string>();
-    
+
     this.form.get('role1').value == true ? roles.push("planejador") : "";
     this.form.get('role2').value == true ? roles.push("Supervisor") : "";
-    this.form.get('role3').value == true ? roles.push("Colaborador Executor") : "" ;
-    
+    this.form.get('role3').value == true ? roles.push("Colaborador Executor") : "";
+
     return roles;
   }
 }

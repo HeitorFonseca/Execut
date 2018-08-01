@@ -21,14 +21,14 @@ export class TaskComponent implements OnInit, OnChanges {
 
   objectsIds: Array<any>;
 
-  form:FormGroup;
-  employees:Array<Employee>;
-  services:Array<Service>;
-  equipments:Array<any> = [];
+  form: FormGroup;
+  employees: Array<Employee>;
+  services: Array<Service>;
+  equipments: Array<any> = [];
   materials: Array<any> = [];
   stati: Array<any> = [];
   tasks: Array<Task>;
-  
+
   selectedEmployeer;
   selectedService;
   selectedBIMObjs;
@@ -41,96 +41,100 @@ export class TaskComponent implements OnInit, OnChanges {
 
     this.form = this.formBuilder.group({
       //name: ['', Validators.required],
-      description: ['', Validators.required],     
-      employee: ['', Validators.required ],     
+      description: ['', Validators.required],
+      employee: ['', Validators.required],
       service: ['', Validators.required],
-      status:['', Validators.required],
-      initialDate:['', Validators.required],
-      finalDate:['', Validators.required],
+      status: ['', Validators.required],
+      initialDate: ['', Validators.required],
+      finalDate: ['', Validators.required],
     });
-    
-   }
+
+  }
 
   ngOnInit() {
-    console.log("entrou em task", this.project.id);
     if (this.project && !this.lock) {
+      console.log("entrou em task", this.project.id);
+
       this.getAllFieldsFromProject();
 
-      this.projectsService.getTasks(this.project.id).subscribe( data => {
+      this.projectsService.getTasks(this.project.id).subscribe(data => {
         console.log("tasks", data);
 
         this.tasks = data as Array<Task>;
       });
     }
-  } 
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     console.log("changes:", changes);
     if (changes['project']) {
       let varChange = changes['project'];
       this.project = varChange.currentValue;
-      this.getAllFieldsFromProject();
 
-      this.projectsService.getTasks(this.project.id).subscribe( data => {
-        console.log("tasks:", data);
+      if (this.project) {
+        this.getAllFieldsFromProject();
 
-        this.tasks = data as Array<Task>;
-      });
+        this.projectsService.getTasks(this.project.id).subscribe(data => {
+          console.log("tasks:", data);
+
+          this.tasks = data as Array<Task>;
+        });
+      }
     }
   }
 
-  getAllFieldsFromProject(){
+  getAllFieldsFromProject() {
     this.lock = true;
     this.equipments = [];
     this.materials = [];
 
-    this.projectsService.getTaskStatus().subscribe( data => {
+    this.projectsService.getTaskStatus().subscribe(data => {
       console.log("get status");
-      this.stati = data;     
+      this.stati = data;
       console.log(data);
     })
 
-    this.projectsService.getEmployeesByProject(this.project.id).subscribe( data => {
+    this.projectsService.getEmployeesByProject(this.project.id).subscribe(data => {
       console.log("get employees by project")
       this.employees = data;
       console.log(data);
     })
 
-    this.projectsService.getServicesByProject(this.project.id).subscribe( data => {
+    this.projectsService.getServicesByProject(this.project.id).subscribe(data => {
       console.log("get services by project");
       this.services = data;
       console.log(data);
     });
 
-    this.projectsService.getMaterialsByProject(this.project.id).subscribe( data => {
+    this.projectsService.getMaterialsByProject(this.project.id).subscribe(data => {
       console.log("get materials by project");
-      let materialsData:any = data;
+      let materialsData: any = data;
       console.log(data);
-      for(let m of materialsData) {
-        this.materials.push({name:m.name, value:m.id, checked:false})
+      for (let m of materialsData) {
+        this.materials.push({ name: m.name, value: m.id, checked: false })
       }
     });
 
-    this.projectsService.getEquipmentsByProject(this.project.id).subscribe( data => {
+    this.projectsService.getEquipmentsByProject(this.project.id).subscribe(data => {
       console.log("get equipments by project");
-      let equipmentsData:any = data;
+      let equipmentsData: any = data;
       console.log(data);
-      for(let m of equipmentsData) {
-        this.equipments.push({name:m.name, value:m.id, checked:false})
+      for (let m of equipmentsData) {
+        this.equipments.push({ name: m.name, value: m.id, checked: false })
       }
     });
   }
 
   onClicked(array, option, event) {
     console.log(array, option);
-    for (var i = 0; i < array.length; i++) {        
-        if (array[i].value == option.value) {
-          array[i].checked = event.target.checked;
-            console.log("after update of checkbox " + i + " " + array[i].checked);
-        }
+    for (var i = 0; i < array.length; i++) {
+      if (array[i].value == option.value) {
+        array[i].checked = event.target.checked;
+        console.log("after update of checkbox " + i + " " + array[i].checked);
+      }
     }
   }
-  
+
   receiverSelectedObjects(selectedObjects) {
     this.selectedBIMObjs = selectedObjects;
     console.log('Foi emitido o evento e chegou no pai >>>> ', selectedObjects);
@@ -138,8 +142,8 @@ export class TaskComponent implements OnInit, OnChanges {
 
   onRegisterTaks() {
 
-    let materialList:Array<any> = [];
-    let equipmentList:Array<any> = [];
+    let materialList: Array<any> = [];
+    let equipmentList: Array<any> = [];
 
     for (var i = 0; i < this.materials.length; i++) {
       if (this.materials[i].checked) {
@@ -161,8 +165,8 @@ export class TaskComponent implements OnInit, OnChanges {
 
     let reqTask = {
       description: this.form.get('description').value,
-      initialDate: initDt.year +  "-" + initDt.month + "-" + initDt.day,//this.form.get('initialDate').value,
-      finalDate: finDt.year +  "-" + finDt.month + "-" + finDt.day, //this.form.get('finalDate').value,
+      initialDate: initDt.year + "-" + initDt.month + "-" + initDt.day,//this.form.get('initialDate').value,
+      finalDate: finDt.year + "-" + finDt.month + "-" + finDt.day, //this.form.get('finalDate').value,
       status: this.form.get('status').value,
       projectId: this.project.id,
       employeeId: this.form.get('employee').value,
@@ -173,27 +177,27 @@ export class TaskComponent implements OnInit, OnChanges {
     }
 
     console.log("reqTask:", reqTask);
-    this.projectsService.registerTask(reqTask).subscribe( data => {
+    this.projectsService.registerTask(reqTask).subscribe(data => {
       console.log("registrar task")
-      
+
       if (!data.success) {
         this.messageClass = 'alert alert-danger';
         this.message = data.message;
       } else {
         this.messageClass = 'alert alert-success';
-        this.message = data.message;        
+        this.message = data.message;
       }
 
     });
   }
 
-  removeTask(task:Task, index) {
+  removeTask(task: Task, index) {
     console.log(task, index);
     this.projectsService.removeTasks(task.id).subscribe(data => {
 
       console.log("Remover tarefa:", data);
 
-      if(!data.success){
+      if (!data.success) {
 
       }
       else {
@@ -202,19 +206,19 @@ export class TaskComponent implements OnInit, OnChanges {
     })
   }
 
-  editTask(task:Task) {
-    
+  editTask(task: Task) {
+
     let objsId = [];
 
-    for( let objId of task.forgeObjs) {
+    for (let objId of task.forgeObjs) {
       objsId.push(+objId.dbId);
     }
 
     this.objectsIds = objsId;
   }
 
-  onRegisterSubmit(){
-    
+  onRegisterSubmit() {
+
   }
 
 }

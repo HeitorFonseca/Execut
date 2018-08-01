@@ -26,6 +26,8 @@ module.exports = function (config) {
     logLevel: config.LOG_INFO,
     autoWatch: true,
     browsers: ['Chrome'],
-    singleRun: false
+    singleRun: false,
+    files: ['https://developer.api.autodesk.com/modelderivative/v2/viewers/three.min.js',
+            'https://developer.api.autodesk.com/modelderivative/v2/viewers/viewer3D.min.js?v=v4.0']
   });
 };

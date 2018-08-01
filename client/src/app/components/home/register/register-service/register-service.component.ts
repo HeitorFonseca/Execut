@@ -23,29 +23,34 @@ export class RegisterServiceComponent implements OnInit {
   services: Array<Service>;
 
   constructor(private formBuilder: FormBuilder,
-              private projectsService: ProjectsService) {
+    private projectsService: ProjectsService) {
     this.createForm();
   }
 
   ngOnInit() {
-    this.projectsService.getServicesByProject(this.project.id).subscribe(data => {
-      console.log("services", data);
-      this.services = data as Array<Service>;
-    });
+    if (this.project) {
+      this.projectsService.getServicesByProject(this.project.id).subscribe(data => {
+        console.log("services", data);
+        this.services = data as Array<Service>;
+      });
+    }
+    else {
+
+    }
   }
 
 
   createForm() {
     this.form = this.formBuilder.group({
       name: ['', Validators.required],
-      description: ['', Validators.required],     
+      description: ['', Validators.required],
     });
 
   }
 
   disableForm() {
     this.form.controls['name'].disable();
-    this.form.controls['description'].disable(); 
+    this.form.controls['description'].disable();
   }
 
   enableForm() {
@@ -67,7 +72,7 @@ export class RegisterServiceComponent implements OnInit {
     console.log(reqService, " ", this.project);
 
     this.projectsService.registerProjectService(reqService).subscribe(data => {
-      
+
       console.log("register service:", data);
       if (!data.success) {
         this.messageClass = 'alert alert-danger';
@@ -76,7 +81,7 @@ export class RegisterServiceComponent implements OnInit {
         this.enableForm();
       } else {
         this.messageClass = 'alert alert-success';
-        this.message = data.message;        
+        this.message = data.message;
       }
     });
   }

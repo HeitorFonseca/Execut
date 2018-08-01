@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RegisterMaterialComponent } from './register-material.component';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('RegisterMaterialComponent', () => {
   let component: RegisterMaterialComponent;
@@ -8,7 +11,9 @@ describe('RegisterMaterialComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RegisterMaterialComponent ]
+      declarations: [ RegisterMaterialComponent ],
+      imports: [ReactiveFormsModule, FormsModule, RouterTestingModule,
+        HttpClientModule]
     })
     .compileComponents();
   }));

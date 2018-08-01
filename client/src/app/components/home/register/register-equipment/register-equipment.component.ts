@@ -23,31 +23,33 @@ export class RegisterEquipmentComponent implements OnInit {
   equipments: Array<Equipment>;
 
   constructor(private formBuilder: FormBuilder,
-              private projectsService: ProjectsService) {
+    private projectsService: ProjectsService) {
     this.createForm();
   }
 
   ngOnInit() {
 
     console.log(this.project);
-    this.projectsService.getEquipmentsByProject(this.project.id).subscribe(data =>{
-      console.log("equipments", data);
-      this.equipments = data as Array<Equipment>;
-    })
+    if (this.project) {
+      this.projectsService.getEquipmentsByProject(this.project.id).subscribe(data => {
+        console.log("equipments", data);
+        this.equipments = data as Array<Equipment>;
+      });
+    }
   }
 
 
   createForm() {
     this.form = this.formBuilder.group({
       name: ['', Validators.required],
-      description: ['', Validators.required],     
+      description: ['', Validators.required],
     });
 
   }
 
   disableForm() {
     this.form.controls['name'].disable();
-    this.form.controls['description'].disable(); 
+    this.form.controls['description'].disable();
   }
 
   enableForm() {
@@ -69,7 +71,7 @@ export class RegisterEquipmentComponent implements OnInit {
     console.log(reqEquipment, " ", this.project);
 
     this.projectsService.registerProjectEquipment(reqEquipment).subscribe(data => {
-      
+
       console.log("register Equipment:", data);
       if (!data.success) {
         this.messageClass = 'alert alert-danger';
@@ -78,7 +80,7 @@ export class RegisterEquipmentComponent implements OnInit {
         this.enableForm();
       } else {
         this.messageClass = 'alert alert-success';
-        this.message = data.message;        
+        this.message = data.message;
       }
     });
   }

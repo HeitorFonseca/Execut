@@ -23,25 +23,26 @@ export class ProjectComponent implements OnInit {
   }
 
   constructor(private _project: SharedProject,
-              private route: ActivatedRoute,
-              private router: Router,
-              private projectsService: ProjectsService) { }
+    private route: ActivatedRoute,
+    private router: Router,
+    private projectsService: ProjectsService) { }
 
   ngOnInit() {
 
     var projectId = this.route.snapshot.paramMap.get('id');
     console.log(projectId);
 
-    this.projectsService.getProjectById(projectId).subscribe(data => {
-      this.project = data;
-      
-      console.log("http data", this.project);     
-    })
+    if (projectId) {
+      this.projectsService.getProjectById(projectId).subscribe(data => {
+        this.project = data;
+
+        console.log("http data", this.project);
+      });
+    }
   }
 
   onRemoveProjectClick() {
-    this.projectsService.removeProject(this.project.id).subscribe(data =>
-    {
+    this.projectsService.removeProject(this.project.id).subscribe(data => {
       this.router.navigate(['home'])
     });
   }
@@ -84,7 +85,7 @@ export class ProjectComponent implements OnInit {
     this.registerOptions.employee = false;
     this.registerOptions.equipments = false;
     this.registerOptions.material = false;
-    this.registerOptions.services = false;    
+    this.registerOptions.services = false;
   }
 
   // ngAfterViewInit() {

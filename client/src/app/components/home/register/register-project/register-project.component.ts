@@ -39,82 +39,113 @@ export class RegisterProjectComponent implements OnInit {
     let bucketName: string = this.form.get('name').value + UUID.UUID().split('-').join('');
     bucketName = bucketName.split(' ').join('').toLowerCase();
 
-    let reqBucket = {
-      bucketKey: bucketName,
-      policyKey: "persistent"
+    let reqProject = {
+      name: this.form.get('name').value,
+      address: this.form.get('address').value,
+      bucketName: bucketName,
+      users: [JSON.parse(localStorage.getItem('user')).id]
     }
 
-    this.forgeService.createBucket(reqBucket).subscribe(dataBucket => {
+    this.projectsService.registerProject(this.fileToUploadList[0], reqProject).subscribe(data => {
+      console.log("register project:", data);
 
-      // If error when create bucket
-      if (!dataBucket.success) {
+      if (!data.success) {
         this.messageClass = 'alert alert-danger';
-        this.message = dataBucket.message;
+        this.message = data.message;
         this.processing = false;
         this.enableForm();
-      }
-      else {
-        // Upload file
-        this.forgeService.uploadFile(this.fileToUploadList[0], bucketName).subscribe(dataForge => {
-          console.log("uploadfile", dataForge);
+      } else {
+        this.messageClass = 'alert alert-success';
+        this.message = data.message;
 
-          if (!dataForge.success) {
+        let req = {
+          bucketKey: "execut",
+          objectName: data.project.objectKey.replace('=', '')
+        }
 
-            this.messageClass = 'alert alert-danger';
-            this.message = dataForge.message;
-            this.processing = false;
-            this.enableForm();
+        console.log(data);
 
-            this.forgeService.deleteBucket(bucketName).subscribe(data => {
-              console.log("bucket deleted", data);
-            });
-
-          } else {
-
-            
-            let req = {
-              bucketKey: "execut",
-              objectName: btoa(dataForge.object.body.objectId).replace('=', '')
-
-            }
-
-            console.log(req, dataForge.object.body.objectKey);
-
-            this.forgeService.translate(req).subscribe(data => {
-              console.log("translate: ", data);
-
-              let reqProject = {
-                name: this.form.get('name').value,
-                address: this.form.get('address').value,
-                bimModel: dataForge.object.body.objectKey,
-                objectKey: btoa(dataForge.object.body.objectId),
-                bucketName: bucketName,
-                users: [JSON.parse(localStorage.getItem('user')).Id]
-              }
-
-              this.projectsService.registerProject(reqProject).subscribe(dataProj => {
-                console.log("register project:", dataProj);
-
-                if (!dataProj.success) {
-                  this.messageClass = 'alert alert-danger';
-                  this.message = dataProj.message;
-                  this.processing = false;
-                  this.enableForm();
-                } else {
-                  this.messageClass = 'alert alert-success';
-                  this.message = dataProj.message;
-                }
-              });
-
-            })
-
-          }
+        this.forgeService.translate(req).subscribe(data =>{
+          console.log("translation", data);
         });
 
+
+
       }
-
-
     });
+
+
+    // this.forgeService.createBucket(reqBucket).subscribe(dataBucket => {
+
+    //   // If error when create bucket
+    //   if (!dataBucket.success) {
+    //     this.messageClass = 'alert alert-danger';
+    //     this.message = dataBucket.message;
+    //     this.processing = false;
+    //     this.enableForm();
+    //   }
+    //   else {
+    //     // Upload file
+    //     this.forgeService.uploadFile(this.fileToUploadList[0], bucketName).subscribe(dataForge => {
+    //       console.log("uploadfile", dataForge);
+
+    //       if (!dataForge.success) {
+
+    //         this.messageClass = 'alert alert-danger';
+    //         this.message = dataForge.message;
+    //         this.processing = false;
+    //         this.enableForm();
+
+    //         this.forgeService.deleteBucket(bucketName).subscribe(data => {
+    //           console.log("bucket deleted", data);
+    //         });
+
+    //       } else {
+
+
+    //         let req = {
+    //           bucketKey: "execut",
+    //           objectName: btoa(dataForge.object.body.objectId).replace('=', '')
+
+    //         }
+
+    //         console.log(req, dataForge.object.body.objectKey);
+
+    //         this.forgeService.translate(req).subscribe(data => {
+    //           console.log("translate: ", data);
+
+    //           let reqProject = {
+    //             name: this.form.get('name').value,
+    //             address: this.form.get('address').value,
+    //             bimModel: dataForge.object.body.objectKey,
+    //             objectKey: btoa(dataForge.object.body.objectId),
+    //             bucketName: bucketName,
+    //             users: [JSON.parse(localStorage.getItem('user')).Id]
+    //           }
+
+    //           this.projectsService.registerProject(reqProject).subscribe(dataProj => {
+    //             console.log("register project:", dataProj);
+
+    //             if (!dataProj.success) {
+    //               this.messageClass = 'alert alert-danger';
+    //               this.message = dataProj.message;
+    //               this.processing = false;
+    //               this.enableForm();
+    //             } else {
+    //               this.messageClass = 'alert alert-success';
+    //               this.message = dataProj.message;
+    //             }
+    //           });
+
+    //         })
+
+    //       }
+    //     });
+
+    //   }
+
+
+    // });
 
   }
 
@@ -130,6 +161,8 @@ export class RegisterProjectComponent implements OnInit {
       address: ['', Validators.required],
       BIMModel: ['', Validators.required]
     });
+
+    this.form
   }
 
   disableForm() {

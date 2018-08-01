@@ -27,8 +27,19 @@ export class ProjectsService {
   }
 
   // Function to register projects
-  registerProject(project) {
-    return this.http.post<any>(this.domain + 'project/register', project).pipe(map(res => res));
+  registerProject(file:File, project) {
+
+    const headers = new HttpHeaders();
+    headers.append('Content-Type', 'multipart/form-data');
+
+    const fd = new FormData();
+    fd.append('fileToUpload', file, file.name);
+    fd.append('name', project.name);
+    fd.append('address', project.address);
+    fd.append('bucketKey', project.bucketName);
+    fd.append('users', project.users);
+
+    return this.http.post<any>(this.domain + 'project/register', fd, { headers: headers }).pipe(map(res => res));
   }
 
   removeProject(id) {

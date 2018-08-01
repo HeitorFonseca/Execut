@@ -100,7 +100,7 @@ export class ForgeViewerComponent implements OnInit, OnDestroy, OnChanges {
     console.log("load document");
 
     // const urn = 'urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6aXNpYTU4NDc4MzI4NDA0YTg4MWQ5ZDMzMzIyMmU5ZjI1NzgvYXBhcnRhbWVudG8ucnZ0';
-    const urn = 'urn:' + this.project.objectKey;
+    const urn = 'urn:' + this.project.objectKey.replace("="," ");
 
     Autodesk.Viewing.Document.load(urn, (doc) => {
       const geometryItems = Autodesk.Viewing.Document.getSubItemsWithProperties(doc.getRootItem(), { type: 'geometry' }, true);

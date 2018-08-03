@@ -1,6 +1,9 @@
-<p>
-  forge-viewer works!
-</p>
+<!-- Custom Success/Error Message -->
+<div class="row show-hide-message">
+  <div [ngClass]="messageClass">
+    {{ message }}
+  </div>
+</div>
 
 <div #viewerContainer class="viewer">
 </div>

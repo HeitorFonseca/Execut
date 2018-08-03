@@ -13,8 +13,6 @@ import {User} from "./../models/user";
 export class AuthService {
 
   @Output() getLoggedInName: EventEmitter<any> = new EventEmitter();
-
-
   domain = "http://localhost:3000/api/";
   authToken;
   user;

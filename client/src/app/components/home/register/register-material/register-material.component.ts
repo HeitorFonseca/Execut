@@ -89,7 +89,20 @@ export class RegisterMaterialComponent implements OnInit {
 
   }
 
-  removeMaterial(material) {
+  removeMaterial(material:Material, index:number) {
+    this.projectsService.removeMaterial(material.id).subscribe(data => {
+      console.log("equipment deleted", data);
 
+      if (!data.success) {
+        this.messageClass = 'alert alert-danger';
+        this.message = data.message;
+        this.processing = false;
+        this.enableForm();
+      } else {
+        this.messageClass = 'alert alert-success';
+        this.message = data.message;
+        this.materials.splice(index, 1);        
+      }  
+    });
   }
 }

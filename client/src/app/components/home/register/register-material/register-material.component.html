@@ -5,9 +5,9 @@
 
 
   <div class="list-group" *ngIf="materials">
-    <div class="btn-group" role="group" *ngFor="let material of materials">
+    <div class="btn-group" role="group" *ngFor="let material of materials; let i = index">
       <button type="button" (click)="editMaterial(material)" class="list-group-item list-group-item-action col-lg-2">{{material.name}}</button>
-      <button type="button" (click)="removeMaterial(material)" class="btn btn-secondary">x</button>
+      <button type="button" (click)="removeMaterial(material, i)" class="btn btn-secondary">x</button>
     </div>
   </div>
 

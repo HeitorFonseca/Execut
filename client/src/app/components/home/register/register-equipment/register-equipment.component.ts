@@ -85,4 +85,24 @@ export class RegisterEquipmentComponent implements OnInit {
     });
   }
 
+  removeEquipment(equipment:Equipment, index) {
+
+    this.projectsService.removeEquipment(equipment.id).subscribe(data => {
+      console.log("equipment deleted", data);
+
+      if (!data.success) {
+        this.messageClass = 'alert alert-danger';
+        this.message = data.message;
+        this.processing = false;
+        this.enableForm();
+      } else {
+        this.messageClass = 'alert alert-success';
+        this.message = data.message;
+        this.equipments.splice(index, 1);        
+      }  
+    });
+  }
+
+  
+
 }

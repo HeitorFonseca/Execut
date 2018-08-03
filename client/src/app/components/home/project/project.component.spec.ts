@@ -14,6 +14,7 @@ import { RegisterServiceComponent } from '../register/register-service/register-
 import { TaskComponent } from '../task/task.component';
 import { ForgeViewerComponent } from '../../forge-viewer/forge-viewer.component';
 import { SharedProject } from '../../../providers/sharedProject';
+import { ProjectsService } from '../../../services/projects.service';
 
 describe('ProjectComponent', () => {
   let component: ProjectComponent;
@@ -29,9 +30,10 @@ describe('ProjectComponent', () => {
         RegisterServiceComponent,
         TaskComponent,
         ForgeViewerComponent],
+        
       imports: [ReactiveFormsModule, FormsModule, RouterTestingModule,
-        HttpClientModule, NgbModule],
-        providers: [ SharedProject ]
+        HttpClientModule , NgbModule],
+        providers: [ SharedProject, ProjectsService ]
     })
       .compileComponents();
   }));

@@ -11,12 +11,11 @@
   </div>
 
   <div class="list-group" *ngIf="employees">
-    <div class="btn-group" role="group" *ngFor="let employee of employees">
+    <div class="btn-group" role="group" *ngFor="let employee of employees; let i = index">
       <button type="button" (click)="editEmployee(employee)" class="list-group-item list-group-item-action col-lg-2">{{employee.name}}</button>
-      <button type="button" (click)="removeEmployee(employee)" class="btn btn-secondary">x</button>
+      <button type="button" (click)="removeEmployee(employee, i)" class="btn btn-secondary">x</button>
     </div>
   </div>
-
 
   <br>
   <br>

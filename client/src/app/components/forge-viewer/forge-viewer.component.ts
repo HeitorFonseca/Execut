@@ -19,9 +19,11 @@ export class ForgeViewerComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild('viewerContainer') viewerContainer: any;
   
   
+  messageClass;
+  message;
   private viewer: any
   private selectedSection: any = null;
-
+  
   constructor(private elementRef: ElementRef,
               private forgeService: ForgeService,) { }
 
@@ -33,7 +35,22 @@ export class ForgeViewerComponent implements OnInit, OnDestroy, OnChanges {
   ngAfterViewInit() {
     console.log("ngafterinit");
 
-    this.launchViewer();
+    
+    this.forgeService.getTranslationStatus(this.project.objectKey.replace("=", "")).subscribe(data => {
+      console.log("translation status", data);
+
+      if (data.status && data.progress) {
+        if (data.status == "success" && data.progress == "complete") {
+          this.launchViewer();
+        }
+        else {
+          this.messageClass = 'alert alert-success';
+          this.message = "O arquivo ainda está sendo traduzido, aguarde um momento";
+        }
+      }
+    });
+
+   
   }
 
   ngOnChanges(changes: SimpleChanges) {

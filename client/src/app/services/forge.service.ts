@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
-import {environment} from '../../environments/environment';
+import { environment } from '../../environments/environment';
 import { map } from 'rxjs/operators';
 
 const httpOptions = {
-  headers: new HttpHeaders({ 
-                             'Access-Control-Allow-Origin': '*',
-                             'Access-Control-Allow-Headers': '*',
-                             'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-                             'Content-Type': 'application/x-www-form-urlencoded', 
-                            })
+  headers: new HttpHeaders({
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': '*',
+    'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
+    'Content-Type': 'application/x-www-form-urlencoded',
+  })
 };
 
 @Injectable({
@@ -21,37 +21,37 @@ export class ForgeService {
 
   access_token: string;
 
-  requestOptions:any;
+  requestOptions: any;
 
   domain = "http://localhost:3000/api/";
 
-  constructor(private http: HttpClient, 
-              private router: Router) { }                
+  constructor(private http: HttpClient,
+    private router: Router) { }
 
-              
+
   getAccessToken() {
-    return this.http.get<any>(this.domain  + "forge/oauth/token").pipe(map(res => res));
+    return this.http.get<any>(this.domain + "forge/oauth/token").pipe(map(res => res));
   }
 
   uploadFile(file: File, bucketKey) {
 
-    
     const headers = new HttpHeaders();
     headers.append('Content-Type', 'multipart/form-data');
 
-    const fd = new  FormData();
+    const fd = new FormData();
     fd.append('fileToUpload', file, file.name);
     fd.append('bucketKey', bucketKey);
 
-    return this.http.post<any>(this.domain  + "forge/oss/objects", fd, {headers: headers} ).pipe(map(res => res));
+    return this.http.post<any>(this.domain + "forge/oss/objects", fd, { headers: headers }).pipe(map(res => res));
   }
 
   createBucket(bucket) {
 
     const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
+    
 
-    return this.http.post<any>(this.domain + "forge/oss/buckets", bucket, {headers: headers} ).pipe(map(res => res));
+    return this.http.post<any>(this.domain + "forge/oss/buckets", bucket, { headers: headers }).pipe(map(res => res));
   }
 
   getBuckets(id) {
@@ -62,7 +62,7 @@ export class ForgeService {
     let params = new HttpParams();
     params = params.append('id', id);
 
-    return this.http.get<any>(this.domain  + "forge/oss/buckets", {params:params} ).pipe(map(res => res));
+    return this.http.get<any>(this.domain + "forge/oss/buckets", { params: params }).pipe(map(res => res));
   }
 
   deleteBucket(id) {
@@ -73,7 +73,7 @@ export class ForgeService {
     let params = new HttpParams();
     params = params.append('bucketKey', id);
 
-    return this.http.delete<any>(this.domain + "forge/oss/buckets/:bucketKey", {params:params} ).pipe(map(res => res));
+    return this.http.delete<any>(this.domain + "forge/oss/buckets/:bucketKey", { params: params }).pipe(map(res => res));
   }
 
   translate(req) {
@@ -82,7 +82,12 @@ export class ForgeService {
 
     let dt = JSON.stringify({ 'bucketKey': "execut", 'objectName': "apartamento.rvt" })
 
-    return this.http.post<any>(this.domain  + "forge/modelderivative/jobs", req, {headers: headers} ).pipe(map(res => res));
+    return this.http.post<any>(this.domain + "forge/modelderivative/jobs", req, { headers: headers }).pipe(map(res => res));
+  }
+
+  getTranslationStatus(urn) {
+
+    return this.http.get<any>(this.domain + "forge/modelderivative/designdata/" + urn + "/manifest",).pipe(map(res => res));
   }
 
   loadToken() {
@@ -90,5 +95,5 @@ export class ForgeService {
     this.access_token = token;
   }
 
-  
+
 }

@@ -96,6 +96,26 @@ export class RegisterEmployeeComponent implements OnInit {
 
   }
 
+  removeEmployee(employee:Employee, index:number) {
+
+
+
+    this.projectsService.removeEmployee(employee.id).subscribe(data => {
+      console.log("Employee deleted", data);
+
+      if (!data.success) {
+        this.messageClass = 'alert alert-danger';
+        this.message = data.message;
+        this.processing = false;
+        this.enableForm();
+      } else {
+        this.messageClass = 'alert alert-success';
+        this.message = data.message;
+        this.employees.splice(index, 1);        
+      }  
+    });
+  }
+
   getRoles() {
     var roles = new Array<string>();
 

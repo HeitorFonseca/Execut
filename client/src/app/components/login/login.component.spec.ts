@@ -6,6 +6,7 @@ import { LoginComponent } from './login.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientModule } from '@angular/common/http';
+import { AuthService } from '../../services/auth.service';
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
@@ -18,6 +19,7 @@ describe('LoginComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ LoginComponent ],
+      providers: [ AuthService ],
       imports: [ReactiveFormsModule, FormsModule, RouterTestingModule,
         HttpClientModule,
         JwtModule.forRoot({

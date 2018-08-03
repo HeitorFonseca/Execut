@@ -61,6 +61,11 @@ export class ProjectsService {
     return this.http.get<any>(this.domain + 'project/'+ projectId + '/employeer').pipe(map(res => res));
   }
 
+  removeEmployee(id) {
+    console.log("delete Employee: ", id)
+    return this.http.delete<any>(this.domain + 'project/employeer/' + id).pipe(map(res => res));
+  }
+
   /* Material */
   registerProjectMaterial(material) {
     return this.http.post<any>(this.domain + 'project/registerMaterial', material).pipe(map(res => res));
@@ -77,7 +82,7 @@ export class ProjectsService {
 
   removeMaterial(materialId) {
     console.log("remove Material", materialId);
-    return this.http.delete(this.domain + 'project/materials/' + materialId).pipe(map(res => res));
+    return this.http.delete<any>(this.domain + 'project/materials/' + materialId).pipe(map(res => res));
   }
 
   /* Service */
@@ -89,6 +94,11 @@ export class ProjectsService {
     return this.http.get<any>(this.domain + 'project/' + projectId +'/services').pipe(map(res => res));
   }
 
+  removeService(id) {
+    console.log("delete service: ", id)
+    return this.http.delete<any>(this.domain + 'project/services/' + id).pipe(map(res => res));
+  }
+
   /* Equipment */
   registerProjectEquipment(equipment) {
     return this.http.post<any>(this.domain + 'project/registerEquipment', equipment).pipe(map(res => res));
@@ -96,6 +106,11 @@ export class ProjectsService {
 
   getEquipmentsByProject(projectId): Observable<any> {
     return this.http.get<any>(this.domain +  'project/' + projectId +'/equipments').pipe(map(res => res));
+  }
+
+  removeEquipment(id) {
+    console.log("delete Equipment: ", id)
+    return this.http.delete<any>(this.domain + 'project/equipments/' + id).pipe(map(res => res));
   }
 
   /* Get all status */

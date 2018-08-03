@@ -86,4 +86,21 @@ export class RegisterServiceComponent implements OnInit {
     });
   }
 
+  removeService(service:Service, index) {
+    this.projectsService.removeService(service.id).subscribe(data => {
+      console.log("service deleted", data);
+
+      if (!data.success) {
+        this.messageClass = 'alert alert-danger';
+        this.message = data.message;
+        this.processing = false;
+        this.enableForm();
+      } else {
+        this.messageClass = 'alert alert-success';
+        this.message = data.message;
+        this.services.splice(index, 1);        
+      }  
+    });
+  }
+
 }

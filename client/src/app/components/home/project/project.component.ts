@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { SharedProject } from './../../../providers/sharedProject';
 import { ProjectsService } from '../../../services/projects.service'
 import { Project } from "./../../../models/project";
+import { ForgeService } from '../../../services/forge.service';
 
 @Component({
   selector: 'app-project',
@@ -25,7 +26,8 @@ export class ProjectComponent implements OnInit {
   constructor(private _project: SharedProject,
     private route: ActivatedRoute,
     private router: Router,
-    private projectsService: ProjectsService) { }
+    private projectsService: ProjectsService,
+    private forgeService: ForgeService) { }
 
   ngOnInit() {
 
@@ -37,8 +39,16 @@ export class ProjectComponent implements OnInit {
         this.project = data;
 
         console.log("http data", this.project);
+
+        this.forgeService.getTranslationStatus(this.project.objectKey.replace("=", "")).subscribe(data => {
+          console.log("translation status", data);
+        });
+
       });
+
+
     }
+
   }
 
   onRemoveProjectClick() {

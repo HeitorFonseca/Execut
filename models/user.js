@@ -14,7 +14,7 @@ const userSchema = new Schema({
   password: { type: String, required: true},
   name: { type: String, required: true},
   roles: { type: [String], required: true},
-  projects: [ {type : Number, ref : 'project'} ]
+  projects: [ {type : String, ref : 'project'} ]
 
 });
 
@@ -34,6 +34,19 @@ userSchema.pre('save', function(next) {
     next(); // Exit middleware
   });
 });
+
+// taskSchema.set('toJSON', {
+//   transform: function(doc, ret, options) {
+//       var retJson = {
+//           id: ret._id,
+//           username: ret.username,
+//           name: ret.name,
+//           roles: ret.roles,
+//           projects: ret.projects,
+//       };
+//       return retJson;
+//   }
+// });
 
 // Methods to compare password to encrypted password upon login
 userSchema.methods.comparePassword = function(password) {

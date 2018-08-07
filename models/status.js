@@ -10,5 +10,17 @@ const statusSchema = new Schema({
     name: { type: String, required: true},    
 }, { collection: 'stati' });
 
+statusSchema.set('toJSON', {
+    transform: function (doc, ret, options) {
+        var retJson = {
+            id: ret._id,
+            name: ret.name,
+        };
+        return retJson;
+    }
+});
+
+
+
 module.exports = mongoose.model('Stati', statusSchema);
 

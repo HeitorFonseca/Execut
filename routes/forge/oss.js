@@ -87,36 +87,19 @@ router.post('/oss/buckets', jsonParser, function (req, res) {
         var bucketsApi = new forgeSDK.BucketsApi();
         var postBuckets = new forgeSDK.PostBucketsPayload();
         postBuckets.bucketKey = req.body.bucketKey;
-        postBuckets.policyKey = req.body.policyKey; // expires in 24h
+        postBuckets.policyKey = "transient"; // expires in 24h
 
         console.log("creating bucket",  req.body);
         bucketsApi.createBucket(postBuckets, {}, oauth.OAuthClient(), credentials).then(function (buckets) {
-           res.status(200).json({ success: true, message: 'Bucket registrado!' });
+            res.status(200).end();
         }).catch(function (error) {
             if (error.statusCode && error.statusCode == 409)
-                res.status(409).json({ success: false, message: 'Bucket já existe!' });
+                res.status(409).end();
             else {
                 console.log('Error at OSS Create Bucket:');
                 console.log(error);
-                res.status(500).json({ success: false, message: 'Erro ao criar o bucket !' });
+                res.status(500).json(error);
             }
-        });
-    });
-});
-
-router.delete('/oss/buckets/:bucketKey', jsonParser, function (req, res) {
-    oauth.getTokenInternal().then(function (credentials) {
-        var bucketsApi = new forgeSDK.BucketsApi();
-        var bucketKey = req.body.bucketKey;
-
-        console.log("creating bucket",  req.body);
-        bucketsApi.deleteBucket(bucketKey, {}, oauth.OAuthClient(), credentials).then(function (buckets) {
-           res.status(200).json({ success: true, message: 'Bucket deletado!' });
-        }).catch(function (error) {
-            
-            console.log('Error at OSS DELETE Bucket:');
-            console.log(error);
-            res.status(500).json({ success: false, message: 'Erro ao deletar o bucket !' });            
         });
     });
 });
@@ -130,15 +113,14 @@ router.post('/oss/objects', upload.single('fileToUpload'), function (req, res) {
     console.log("post objects", req.body);
     oauth.getTokenInternal().then(function (credentials) {
         console.log("post objects2", req.body);
-        //console.log("post objects2", req.file);
+        console.log("post objects2", req.file);
         var bucketKey = req.body.bucketKey;
         var fs = require('fs');
         fs.readFile(req.file.path, function (err, filecontent) {
             var objects = new forgeSDK.ObjectsApi();
             objects.uploadObject(bucketKey, req.file.originalname, filecontent.length, filecontent, {}, oauth.OAuthClient(), credentials)
                 .then(function (object) {
-                    console.log(object);
-                    res.json({ success: true, message: 'File uploaded', object: object });
+                    res.json({ success: true, message: 'File uploaded' });
                 }).catch(function (error) {
                     console.log('Error at Upload Object:');
                     console.log(error);

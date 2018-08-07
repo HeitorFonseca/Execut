@@ -45,7 +45,7 @@ router.post('/modelderivative/jobs', jsonParser, function (req, res) {
         );
         postJob.output.formats[0].type = 'svf';
         postJob.output.formats[0].views = ['2d', '3d'];
-        console.log("chegou aqui");
+        
         // create the derivative API 
         var derivativesApi = new forgeSDK.DerivativesApi();
         // post the job
@@ -57,6 +57,34 @@ router.post('/modelderivative/jobs', jsonParser, function (req, res) {
                 console.log(e);
                 res.status(500).json({ error: e.error.body })
             });
+    });
+});
+
+router.get('/modelderivative/designdata/:urn/manifest', jsonParser, function(req, res) {
+    console.log("REQ Trans:", req.params.urn);
+    oauth.getTokenInternal().then(function (credentials) {
+        // prepare the translation job payload
+        var postJob = new forgeSDK.JobPayload();
+        postJob.input = new forgeSDK.JobPayloadInput();
+        postJob.input.urn = req.body.objectName;
+        postJob.output = new forgeSDK.JobPayloadOutput(
+            [new forgeSDK.JobSvfOutputPayload()]
+        );
+        postJob.output.formats[0].type = 'svf';
+        postJob.output.formats[0].views = ['2d', '3d'];
+        
+        // create the derivative API 
+        var derivativesApi = new forgeSDK.DerivativesApi();
+        
+        derivativesApi.getManifest(req.params.urn, {}, oauth.OAuthClient(), credentials )
+            .then(function (data){
+                console.log("translation status:", data);
+                res.json({status: data.body.status, progress:data.body.progress});
+            }).catch(function(e){
+                console.log('Error at Model Derivative job:');
+                console.log(e);
+                res.status(500).json({ error: e.error.body })
+            });       
     });
 });
 

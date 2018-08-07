@@ -69,8 +69,6 @@ export class RegisterProjectComponent implements OnInit {
           console.log("translation", data);
         });
 
-
-
       }
     });
 

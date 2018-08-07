@@ -40,10 +40,6 @@ export class ProjectComponent implements OnInit {
 
         console.log("http data", this.project);
 
-        this.forgeService.getTranslationStatus(this.project.objectKey.replace("=", "")).subscribe(data => {
-          console.log("translation status", data);
-        });
-
       });
 
 
